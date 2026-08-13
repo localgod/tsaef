@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.opengroup.org/xsd/archimate/3.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengroup.org/xsd/archimate/3.0/ http://www.opengroup.org/xsd/archimate/3.1/archimate3_Diagram.xsd" identifier="id-23f8077b20654942947e7923380625de">
+  <name xml:lang="en">Basic</name>
+  <elements>
+    <element identifier="id-f00f3faba91d42a4b4bc2b8baa479b8d" xsi:type="Capability">
+      <name xml:lang="en">Capability</name>
+      <documentation xml:lang="en">This is a dummy capability used for testing DataWrangler</documentation>
+    </element>
+    <element identifier="id-8f81a94e1abf45acbb51d38288ba6e28" xsi:type="ApplicationComponent">
+      <name xml:lang="en">Application Component</name>
+      <documentation xml:lang="en">This is a dummy application used for testing DataWrangler</documentation>
+      <properties>
+        <property propertyDefinitionRef="propid-1">
+          <value xml:lang="en">tytter</value>
+        </property>
+      </properties>
+    </element>
+  </elements>
+  <relationships>
+    <relationship identifier="id-a1637b63f5104eb99004f158710cffec" source="id-8f81a94e1abf45acbb51d38288ba6e28" target="id-f00f3faba91d42a4b4bc2b8baa479b8d" xsi:type="Realization">
+      <name xml:lang="en">Realization</name>
+      <documentation xml:lang="en">this is a Realization</documentation>
+      <properties>
+        <property propertyDefinitionRef="propid-2">
+          <value xml:lang="en">yes</value>
+        </property>
+      </properties>
+    </relationship>
+  </relationships>
+  <organizations>
+    <item>
+      <label xml:lang="en">Strategy</label>
+      <item identifierRef="id-f00f3faba91d42a4b4bc2b8baa479b8d" />
+    </item>
+    <item>
+      <label xml:lang="en">Application</label>
+      <item identifierRef="id-8f81a94e1abf45acbb51d38288ba6e28" />
+    </item>
+    <item>
+      <label xml:lang="en">Relations</label>
+      <item identifierRef="id-a1637b63f5104eb99004f158710cffec" />
+    </item>
+    <item>
+      <label xml:lang="en">Views</label>
+      <item identifierRef="id-21e744389c354c8c814697d8e285338e" />
+    </item>
+  </organizations>
+  <propertyDefinitions>
+    <propertyDefinition identifier="propid-2" type="string">
+      <name>awesome</name>
+    </propertyDefinition>
+    <propertyDefinition identifier="propid-1" type="string">
+      <name>test</name>
+    </propertyDefinition>
+  </propertyDefinitions>
+  <views>
+    <diagrams>
+      <view identifier="id-21e744389c354c8c814697d8e285338e" xsi:type="Diagram">
+        <name xml:lang="en">Default View</name>
+      </view>
+    </diagrams>
+  </views>
+</model>

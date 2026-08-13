@@ -1,0 +1,64 @@
+{
+  "name": "tsaef",
+  "version": "0.1.0",
+  "description": "TypeScript library for the ArchiMate Exchange Format (AEF)",
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.mts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "archimate",
+    "aef",
+    "exchange-format",
+    "enterprise-architecture",
+    "opengroup",
+    "typescript"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "npx tsc",
+    "dev": "npx tsc --watch",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "lint": "oxlint --ignore-path .gitignore .",
+    "lintfix": "oxlint --fix --ignore-path .gitignore .",
+    "format": "oxfmt --check README.md LICENSE CHANGELOG.md src/**/*.mts tests/**/*.mts",
+    "formatfix": "oxfmt README.md LICENSE CHANGELOG.md src/**/*.mts tests/**/*.mts"
+  },
+  "author": "Johannes Skov Frandsen",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/localgod/tsaef.git"
+  },
+  "homepage": "https://github.com/localgod/tsaef#readme",
+  "bugs": {
+    "url": "https://github.com/localgod/tsaef/issues"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^4.5.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "@vitest/coverage-v8": "^2.1.8",
+    "oxfmt": "^0.62.0",
+    "oxlint": "^1.50.0",
+    "typescript": "^5.9.3",
+    "vitest": "^2.1.8"
+  },
+  "allowScripts": {
+    "esbuild@0.21.5": true
+  }
+}

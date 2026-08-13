@@ -1,0 +1,739 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.opengroup.org/xsd/archimate/3.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengroup.org/xsd/archimate/3.0/ http://www.opengroup.org/xsd/archimate/3.1/archimate3_Diagram.xsd http://purl.org/dc/elements/1.1/ http://www.opengroup.org/xsd/archimate/3.1/dc.xsd" identifier="id-66f738de2add49ffa2e778022bcbb632">
+  <name xml:lang="en">Generic</name>
+  <metadata>
+    <schema>Dublin Core</schema>
+    <schemaversion>1.1</schemaversion>
+    <dc:creator>Johannes Skov Frandsen</dc:creator>
+  </metadata>
+  <elements>
+
+
+
+<element identifier="id-565b372d439b86cda37a64663a0710b2" xsi:type="Capability">
+    <name xml:lang="en">Customer Relationship Management</name>
+    <documentation xml:lang="en">The ability to manage and develop a positive customer relationship.</documentation>
+</element>
+    
+
+<element identifier="id-99636cef3688a18d491ebab47cfff4bf" xsi:type="Capability">
+    <name xml:lang="en">Customer Onboarding</name>
+    <documentation xml:lang="en">The ability to successfully onboard and implement customers to the DSV business </documentation>
+</element>
+    
+
+<element identifier="id-986f80bc214ffda98add9e64e02993a3" xsi:type="Capability">
+    <name xml:lang="en">Customer Integration Management</name>
+    <documentation xml:lang="en">The ability to integrate customers and manage the lifecycle of the integrations</documentation>
+</element>
+    
+
+<element identifier="id-7f0b9e4b5052024c5ebd519bea82b4c3" xsi:type="Capability">
+    <name xml:lang="en">Customer Retention Management</name>
+    <documentation xml:lang="en">The ability to retain customers by ensuring positive customer experience by addressing their needs and build long-term relationships e.g. through activities such as customer visits, consistent communication, etc.</documentation>
+</element>
+    
+
+<element identifier="id-279b41dc2a829e434ee9bdaaf1efe110" xsi:type="Capability">
+    <name xml:lang="en">Customer Churn Management</name>
+    <documentation xml:lang="en">The ability to analyse and mitigate customer churn by understanding why customers leave, predict potential churn, and implement measures to reduce churn rates </documentation>
+</element>
+    
+
+<element identifier="id-f5dc7cd7cf1e1928039e6a559db8badc" xsi:type="Capability">
+    <name xml:lang="en">Account Management</name>
+    <documentation xml:lang="en">The ability to support, advise, and manage customer accounts e.g. larger customers</documentation>
+</element>
+    
+
+<element identifier="id-84e5306e6d22d07f63630dfc47d5b1a5" xsi:type="Capability">
+    <name xml:lang="en">Customer Analysis</name>
+    <documentation xml:lang="en">The ability to analyse the customers' supply chains and identify needs to generate sales</documentation>
+</element>
+    
+
+<element identifier="id-021439504f2054f3652d344e1d9069f5" xsi:type="Capability">
+    <name xml:lang="en">Customer Contract Management</name>
+    <documentation xml:lang="en">The ability to manage customer contracts throughout Their lifecycle from initial draft to termination</documentation>
+</element>
+    
+
+<element identifier="id-b3330f2d06e6462b1fd34f12f048e3d9" xsi:type="Capability">
+    <name xml:lang="en">Negotiate Customer Contract</name>
+    <documentation xml:lang="en">The ability to negotiate and agree on the details of a contract resulting in a legal binding and mutual commitment.</documentation>
+</element>
+    
+
+<element identifier="id-9e264afa6ffcf385ce3743d20b688c92" xsi:type="Capability">
+    <name xml:lang="en">Customer Data Management</name>
+    <documentation xml:lang="en">The ability to pull together data from multiple sources and systems such as CRM and ERP systems and assigning customer identifiers to data so that records are grouped by customer</documentation>
+</element>
+    
+
+<element identifier="id-244773b7041bff7b2f59881e42d11fb5" xsi:type="Capability">
+    <name xml:lang="en">Customer Agreement Management</name>
+    <documentation xml:lang="en">The ability to utilize and manage customer agreements</documentation>
+</element>
+    
+
+<element identifier="id-51f6d42e36ba24cce7505ea425ec8cee" xsi:type="Capability">
+    <name xml:lang="en">Customer Service Management</name>
+    <documentation xml:lang="en">The ability to interact with customers in different ways to enhance customer experience, customer satisfaction and customer relationship.</documentation>
+</element>
+    
+
+<element identifier="id-0aa0cb10c59f33a9db8e67709b6f7548" xsi:type="Capability">
+    <name xml:lang="en">Customer Support Management</name>
+    <documentation xml:lang="en">The ability to support customers with questions and issues to ensure a good customer experience</documentation>
+</element>
+    
+
+<element identifier="id-6a2d87f8098b3b325cd7e05054a13400" xsi:type="Capability">
+    <name xml:lang="en">Complaint Management</name>
+    <documentation xml:lang="en">The ability to handle customer complaints related to purchase and delivery of products and services to improve customer satisfaction and retain loyalty.</documentation>
+</element>
+    
+
+<element identifier="id-8f976dc5952c51ecfea407986d366c82" xsi:type="Capability">
+    <name xml:lang="en">Booking Management</name>
+    <documentation xml:lang="en">The ability to capture, register and manage a booking with the necessary information allowing it to be planned and executed</documentation>
+</element>
+    
+
+<element identifier="id-e669e617f8e1a4081b22780ad3e73f17" xsi:type="Capability">
+    <name xml:lang="en">Booking Receival  and Validation</name>
+    <documentation xml:lang="en">The ability to receive and validate a booking based on the received details and information</documentation>
+</element>
+    
+
+<element identifier="id-b7810a4be28b9762407ac01f0d50197d" xsi:type="Capability">
+    <name xml:lang="en">Booking Updating  and Cancellation</name>
+    <documentation xml:lang="en">the ability to manage customer booking updates and cancelations received through various channels</documentation>
+</element>
+    
+
+<element identifier="id-63c83fb599e1a4717a0850af0218ec96" xsi:type="Capability">
+    <name xml:lang="en">Booking Routing</name>
+    <documentation xml:lang="en">the ability to route bookings to responsible executional division, business unit, or supplier</documentation>
+</element>
+    
+
+<element identifier="id-b7b17a10c0511f4ac521e899ffbc01b4" xsi:type="Capability">
+    <name xml:lang="en">Marketing Management</name>
+    <documentation xml:lang="en">the ability to conduct marketing towards regions, markets, customers, partners with the purpose of generating sales and brand awareness</documentation>
+</element>
+    
+
+<element identifier="id-c90cf2a4e7ca3c0aa9d0239a5682c946" xsi:type="Capability">
+    <name xml:lang="en">Market Intelligence</name>
+    <documentation xml:lang="en">the ability to develop and utilise intelligence to understand and gain insights about markets and customers</documentation>
+</element>
+    
+
+<element identifier="id-2d4b022f654d1c7791a3831e2200ee49" xsi:type="Capability">
+    <name xml:lang="en">Customer Channel Management</name>
+    <documentation xml:lang="en">the ability to identify, develop and operate a number of different market channels matching customer and market trends and needs/requirements.</documentation>
+</element>
+    
+
+<element identifier="id-9545bb194f14a6cf32497c8b0cd9124d" xsi:type="Capability">
+    <name xml:lang="en">Sales Management</name>
+    <documentation xml:lang="en">the ability to develop a sales force, coordinating sales operations and implementing sales techniques that allow a business to consistently hit, and even surpass, its sales targets</documentation>
+</element>
+    
+
+<element identifier="id-eab1f40bb9167828565e6edb1711c321" xsi:type="Capability">
+    <name xml:lang="en">Cross-selling  and Upselling</name>
+    <documentation xml:lang="en">the ability to identify opportunities to introduce additional products/services to existing customers (cross-selling) or encourage upgrades (upselling)</documentation>
+</element>
+    
+
+<element identifier="id-77a7217376febdd5061ebd321118e256" xsi:type="Capability">
+    <name xml:lang="en">Lead Qualification</name>
+    <documentation xml:lang="en">the ability to assess and qualify leads generated through various channels, prioritizing opportunities and allocating resources effectively.</documentation>
+</element>
+    
+
+<element identifier="id-5a15897b1c1843bd14c7be22198fccbf" xsi:type="Capability">
+    <name xml:lang="en">Rate Management</name>
+    <documentation xml:lang="en">the ability to determine internal and external rates for products and services.</documentation>
+</element>
+    
+
+<element identifier="id-624047c6d737c17602e2d3cb3dc6fceb" xsi:type="Capability">
+    <name xml:lang="en">Rate Determination</name>
+    <documentation xml:lang="en">the ability to determine sales/freight rates for products and services.</documentation>
+</element>
+    
+
+<element identifier="id-e1d0554fc3e7950c32578713dfc91672" xsi:type="Capability">
+    <name xml:lang="en">Profit  and Margin Management</name>
+    <documentation xml:lang="en">the ability to determine the profit and margin for products and services.</documentation>
+</element>
+    
+
+<element identifier="id-e05a18a26d48d9574dd52b51d190be36" xsi:type="Capability">
+    <name xml:lang="en">Rate Analytics</name>
+    <documentation xml:lang="en">the ability to analyse rate performance to get insight into improving sales execution of products and services.</documentation>
+</element>
+    
+
+<element identifier="id-3168bb433d68235355f1ff12b27f01e5" xsi:type="Capability">
+    <name xml:lang="en">Price  and Quote Management</name>
+    <documentation xml:lang="en">the ability to develop prices and quotes for customers.</documentation>
+</element>
+    
+
+<element identifier="id-d8f8a705549013d4698da5bb02ffada3" xsi:type="Capability">
+    <name xml:lang="en">Self Service Quoting</name>
+    <documentation xml:lang="en">the ability for customers to access and use a self-service quoting capability and receive quotes whenever they want</documentation>
+</element>
+    
+
+<element identifier="id-f85f128ca742faef4fe34230eb1ea91b" xsi:type="Capability">
+    <name xml:lang="en">Spot Quote / One Off Quote</name>
+    <documentation xml:lang="en">the ability to develop a spot / one off quote</documentation>
+</element>
+    
+
+<element identifier="id-5c899eac9709cb948ea152da65a6a6ca" xsi:type="Capability">
+    <name xml:lang="en">Tariff Quote / Quotation</name>
+    <documentation xml:lang="en">the ability to develop a tariff quote / quotation</documentation>
+</element>
+    
+
+<element identifier="id-d8113ae3b9815f13a23cbfcd2f0a84a0" xsi:type="Capability">
+    <name xml:lang="en">Sales Rate Simulation</name>
+    <documentation xml:lang="en">the ability to simulate customer specific rates based on customer data and shipment details</documentation>
+</element>
+    
+
+<element identifier="id-a2e04965eaf3da4368b5a61722836de7" xsi:type="Capability">
+    <name xml:lang="en">Rebate  and Discount Determination</name>
+    <documentation xml:lang="en">the ability to determine and handle rebate and discounts as part of determining quotes and prices</documentation>
+</element>
+    
+
+<element identifier="id-2dde3842c54b4f4c762dd8008ffe2131" xsi:type="Capability">
+    <name xml:lang="en">Tender Management</name>
+    <documentation xml:lang="en">the ability to manage a tender process from request to analysis and generation of tender offer/bid to submit, or to manage the process as tender owner, receiving offers/bids and evaluating before awarding contract to the winner</documentation>
+</element>
+    
+
+<element identifier="id-7787947568b9f499cee36dfb9a275fd3" xsi:type="Capability">
+    <name xml:lang="en">Tender Quote</name>
+    <documentation xml:lang="en">the ability to develop a tender quote as response to e.g. RFQ</documentation>
+</element>
+    
+
+<element identifier="id-44db3a65be0d25f3664936c87c69b934" xsi:type="Capability">
+    <name xml:lang="en">Tender Development</name>
+    <documentation xml:lang="en">the ability to participate in a process to analysis and meet tender customer requests.</documentation>
+</element>
+    
+
+<element identifier="id-8cdf214709465ba7668b7b988ded8154" xsi:type="Capability">
+    <name xml:lang="en">Product  and Service Development</name>
+    <documentation xml:lang="en">the ability to innovate, enhance, and develop products or services offered by the business to meet evolving market and customer needs.</documentation>
+</element>
+    
+
+<element identifier="id-1d829ad9f7ca6dab45e6b472b19627da" xsi:type="Capability">
+    <name xml:lang="en">Product  and Service Design Development</name>
+    <documentation xml:lang="en">the ability to design, prototype, and develop service offerings to meet market needs across transport modes, customer segments, and industry verticals or to utilize opportunities to develop stronger value propositions.</documentation>
+</element>
+    
+
+<element identifier="id-20a5433cb69202527c164cf06f5011c7" xsi:type="Capability">
+    <name xml:lang="en">Product  and Service Testing</name>
+    <documentation xml:lang="en">The ability to test and evaluate a new or existing product to assess key areas like quality, performance etc.</documentation>
+</element>
+    
+
+<element identifier="id-3a26c5a7888cf2e825ecec5a93a2ca99" xsi:type="Capability">
+    <name xml:lang="en">Product  and Service Catalogue Management</name>
+    <documentation xml:lang="en">the ability to define, maintain, and promote a comprehensive catalogue of transportation and logistics service offerings, including pricing and configurations</documentation>
+</element>
+    
+
+<element identifier="id-b0cf9bdaed7c7004795fa11d9d2c315e" xsi:type="Capability">
+    <name xml:lang="en">Product  and Service Definition  and Catalogue Maintenance</name>
+    <documentation xml:lang="en">the ability to define and maintain a comprehensive catalogue of transportation and logistics products and services</documentation>
+</element>
+    
+
+<element identifier="id-e5a3ba821a2d42cfcd8368580a7282c9" xsi:type="Capability">
+    <name xml:lang="en">Product  and Service Documentation </name>
+    <documentation xml:lang="en">the ability to document all aspects of how a product or service functions and all its features</documentation>
+</element>
+    
+
+<element identifier="id-21d8fccd0388f8ed5291a72f5228b9c5" xsi:type="Capability">
+    <name xml:lang="en">Product  and Service Accessibility</name>
+    <documentation xml:lang="en">the ability to ensure that services are easily accessible to customers and effectively promoted through marketing efforts</documentation>
+</element>
+    
+
+<element identifier="id-df628a9deb837051d9903e004740ba30" xsi:type="Capability">
+    <name xml:lang="en">Transport Network Management</name>
+    <documentation xml:lang="en">the ability to develop, operate, and optimize a transportation network consisting of zones, hubs, and lanes</documentation>
+</element>
+    
+
+<element identifier="id-dc9d9c267aee8e6871787ae9f7cdfeb5" xsi:type="Capability">
+    <name xml:lang="en">Zones Management</name>
+    <documentation xml:lang="en">the ability to manage geographical subdivisions of a transportation network through a number of zones </documentation>
+</element>
+    
+
+<element identifier="id-cb3637696b9c685fa056de789de8dbb1" xsi:type="Capability">
+    <name xml:lang="en">Hub Management</name>
+    <documentation xml:lang="en">the ability to manage a number of hubs across the transport network</documentation>
+</element>
+    
+
+<element identifier="id-256a40819537dc303cb1022e24510f3a" xsi:type="Capability">
+    <name xml:lang="en">Network Optimization</name>
+    <documentation xml:lang="en">the ability to optimize the transport network across zones, hubs and lanes</documentation>
+</element>
+    
+
+<element identifier="id-0d6d41de99888ba6fa0ffd06144037ef" xsi:type="Capability">
+    <name xml:lang="en">Transport Scheduling Management</name>
+    <documentation xml:lang="en">the ability to manage and utilise a set of transportation schedules as part of planning shipments</documentation>
+</element>
+    
+
+<element identifier="id-a6bb413847659280645adc3b1c935dea" xsi:type="Capability">
+    <name xml:lang="en">Visibility Management</name>
+    <documentation xml:lang="en">the ability to provide insights and status of logistics operations to ensuring overview and transparency through tracking and notifications.</documentation>
+</element>
+    
+
+<element identifier="id-07686dd0e2a7fb7f75e89c383f7ceff0" xsi:type="Capability">
+    <name xml:lang="en">Transport Tracking Management</name>
+    <documentation xml:lang="en">the ability to track transports during the lifecycle of planning and execution</documentation>
+</element>
+    
+
+<element identifier="id-c697acd74113fcf959773a8c15b22742" xsi:type="Capability">
+    <name xml:lang="en">Freight Monitoring Management</name>
+    <documentation xml:lang="en">the ability to monitor the freight during the transportation lifecycle e.g. temperature</documentation>
+</element>
+    
+
+<element identifier="id-439d25854c27280b5e8cfcd7b1c9c5c3" xsi:type="Capability">
+    <name xml:lang="en">Events Management</name>
+    <documentation xml:lang="en">the ability to define and communicate relevant events over the lifecycle of the shipment from pickup to delivery internally and externally in the right quality</documentation>
+</element>
+    
+
+<element identifier="id-6efcad7280f19a4b29d5f866da61c5ea" xsi:type="Capability">
+    <name xml:lang="en">Customer Notification Management</name>
+    <documentation xml:lang="en">the ability to provide customers with notifications and relevant information related to their bookings</documentation>
+</element>
+    
+
+<element identifier="id-9e97d4ed20cfdc525762841bad693943" xsi:type="Capability">
+    <name xml:lang="en">Exception Management</name>
+    <documentation xml:lang="en">the ability to generate, expose, assign and monitor Exceptions to support operational excellence. Exceptions are Non-Conformities, which indicate a deviation form a happy flow and require an action to resolve them.</documentation>
+</element>
+    
+
+<element identifier="id-af8bb4a0d01c62160d13791ce04e16d1" xsi:type="Capability">
+    <name xml:lang="en">Network Planning</name>
+    <documentation xml:lang="en">the ability to strategically design and manage the logistics network, optimizing routes, hubs, and resources to ensure efficient and cost-effective transportation operations.</documentation>
+</element>
+    
+
+<element identifier="id-819eeaa4c1037495cba55b10eaf203e5" xsi:type="Capability">
+    <name xml:lang="en">Network Capacity Management</name>
+    <documentation xml:lang="en">the ability to oversee and optimize the capacity of a transportation and logistics network, ensuring that resources and infrastructure are efficiently utilized to meet operational demands.</documentation>
+</element>
+    
+
+<element identifier="id-a123e4e622762d1c9a5b672b89fc5d9b" xsi:type="Capability">
+    <name xml:lang="en">Operational Routing Determination</name>
+    <documentation xml:lang="en">the ability to determine the route for cargo shipments from pick-up to delivery location with predetermined stops in between e.g. specific terminals in our network</documentation>
+</element>
+    
+
+<element identifier="id-2140cc5465a69d855096ae272dd9720e" xsi:type="Capability">
+    <name xml:lang="en">Transport Scheduling Management</name>
+    <documentation xml:lang="en">the ability to manage and utilise a set of transportation schedules as part of planning shipments</documentation>
+</element>
+    
+
+<element identifier="id-a8755ca92bae7638e00b9c0cde29d680" xsi:type="Capability">
+    <name xml:lang="en">Insurance Management</name>
+    <documentation xml:lang="en">the ability to offer and deliver shipment / cargo insurance</documentation>
+</element>
+    
+
+<element identifier="id-3edbc564bd62144075972f67fd9a30ac" xsi:type="Capability">
+    <name xml:lang="en">Shipment Management</name>
+    <documentation xml:lang="en">the ability to manage and create a number of shipments based on received orders and bookings.</documentation>
+</element>
+    
+
+<element identifier="id-af3617e3189098edde772d76e0b6671f" xsi:type="Capability">
+    <name xml:lang="en">Shipment Validation  and Registration</name>
+    <documentation xml:lang="en">the ability to register a shipment based on received and validated booking information </documentation>
+</element>
+    
+
+<element identifier="id-152e3725b36760363256372cc4ac739e" xsi:type="Capability">
+    <name xml:lang="en">Shipment Updating  and Cancelation</name>
+    <documentation xml:lang="en">the ability to mange customer shipment updates and cancelations received through various channels</documentation>
+</element>
+    
+
+<element identifier="id-83adb1750922ab6a4ef2b749469e685a" xsi:type="Capability">
+    <name xml:lang="en">Cargo Requirements Management</name>
+    <documentation xml:lang="en">the ability to handle and meet diverse cargo needs including different physical characteristics, packaging, handling instructions, temperature control and security measures.</documentation>
+</element>
+    
+
+<element identifier="id-af39594dda8d90f99651cab5e143a220" xsi:type="Capability">
+    <name xml:lang="en">Consolidation Management</name>
+    <documentation xml:lang="en">the ability to optimise and consolidate shipments for efficient shipment and transportation </documentation>
+</element>
+    
+
+<element identifier="id-ecd8173f58f1019b9743faf155a930ef" xsi:type="Capability">
+    <name xml:lang="en">Shipment Document Management</name>
+    <documentation xml:lang="en">the ability to manage relevant documentation related to shipments e.g. archiving of documentation</documentation>
+</element>
+    
+
+<element identifier="id-9d8ba4896e54bb788fb34643474e41a3" xsi:type="Capability">
+    <name xml:lang="en">Returnable Items Management</name>
+    <documentation xml:lang="en">the ability to handle and plan for returnable items</documentation>
+</element>
+    
+
+<element identifier="id-a9f699800735c3a7ca215cca766c1873" xsi:type="Capability">
+    <name xml:lang="en">Shipment Routing</name>
+    <documentation xml:lang="en">The ability to distribute shipments to responsible executional departments.</documentation>
+</element>
+    
+
+<element identifier="id-b644f849c7337a4545d624f7585aca57" xsi:type="Capability">
+    <name xml:lang="en">Operational Planning</name>
+    <documentation xml:lang="en">The ability to plan relevant activities necessary to execute and secure successful operational activities in the most efficient way</documentation>
+</element>
+    
+
+<element identifier="id-1ea5764f2663603e00b4432b15fda107" xsi:type="Capability">
+    <name xml:lang="en">Carrier, Haulier  and Equipment Planning</name>
+    <documentation xml:lang="en">the ability to select and book carriers, hauliers and equipment to execute transportation of cargo</documentation>
+</element>
+    
+
+<element identifier="id-0609bc5f2ea1229f12710425c32cb93d" xsi:type="Capability">
+    <name xml:lang="en">Production Order Optimization</name>
+    <documentation xml:lang="en">the ability to optimise production order of one or multiple shipments </documentation>
+</element>
+    
+
+<element identifier="id-a1d8e6e76e404f748b49de2918a52f16" xsi:type="Capability">
+    <name xml:lang="en">Instructions Management</name>
+    <documentation xml:lang="en">the ability to create and provide relevant instructions to parties involved in the shipment transportation flow</documentation>
+</element>
+    
+
+<element identifier="id-9093869488dbb7fdb8f95dfe5ad9fdef" xsi:type="Capability">
+    <name xml:lang="en">Intermodal Instructions Management</name>
+    <documentation xml:lang="en">the ability to produce and manage instructions for intermodal transports</documentation>
+</element>
+    
+
+<element identifier="id-3e693bba770817d479c38dbbc800f243" xsi:type="Capability">
+    <name xml:lang="en">Driver Instructions Management</name>
+    <documentation xml:lang="en">the ability to produce and manage transport and shipment instructions for drivers</documentation>
+</element>
+    
+
+<element identifier="id-d63a3492ec2063ead8784143a8dee1a7" xsi:type="Capability">
+    <name xml:lang="en">Terminal Instructions Management</name>
+    <documentation xml:lang="en">the ability to produce and manage instructions for terminals, both internally and externally</documentation>
+</element>
+    
+
+<element identifier="id-4a9d2c4a9da4b50a8b430da3ae05d411" xsi:type="Capability">
+    <name xml:lang="en">Partner  and Agent Instructions Management</name>
+    <documentation xml:lang="en">the ability to produce and manage shipment and transport instructions for agents or partners</documentation>
+</element>
+    
+
+<element identifier="id-7e23f40970ef6f759cbef291b780a7f8" xsi:type="Capability">
+    <name xml:lang="en">Transportation Execution Management</name>
+    <documentation xml:lang="en">the ability to execute transportation of cargo</documentation>
+</element>
+    
+
+<element identifier="id-7d3dabc3fae16369b2686c4fd4310510" xsi:type="Capability">
+    <name xml:lang="en">Haulier  and Driver Communication Management</name>
+    <documentation xml:lang="en">the ability to communicate with drivers and hauliers during the transport execution of shipments to share and exchange necessary information and details</documentation>
+</element>
+    
+
+<element identifier="id-21621e05a65c0b5dc94a98f955052787" xsi:type="Capability">
+    <name xml:lang="en">Stop Execution Management</name>
+    <documentation xml:lang="en">the ability to perform a predefined sequence of stops or adjust and change the sequence during execution</documentation>
+</element>
+    
+
+<element identifier="id-4139dc00361b1cd62bca25a26c93f663" xsi:type="Capability">
+    <name xml:lang="en">Terminal Handling</name>
+    <documentation xml:lang="en">the ability to register/scan and stores and process shipments through a terminal in different ways</documentation>
+</element>
+    
+
+<element identifier="id-0f1c9d513d3e153d7c629217890bc7a8" xsi:type="Capability">
+    <name xml:lang="en">Cross Dock Management</name>
+    <documentation xml:lang="en">the ability to cross dock shipments from unloading trucks to loading on to new trucks</documentation>
+</element>
+    
+
+<element identifier="id-ffc44eafd59b8cc9bb67b374d002001d" xsi:type="Capability">
+    <name xml:lang="en">Terminal Service Management</name>
+    <documentation xml:lang="en">the ability to manage and provide terminal services e.g. re-wrapping/labeling </documentation>
+</element>
+    
+
+<element identifier="id-8cf1ceda0871f3000ee327267b8882ba" xsi:type="Capability">
+    <name xml:lang="en">Terminal Planning Management</name>
+    <documentation xml:lang="en">the ability to plan the handling for shipments and trucks arriving and departing from the terminal in most efficient way</documentation>
+</element>
+    
+
+<element identifier="id-b1908bd8abc47de774526616bdb4b756" xsi:type="Capability">
+    <name xml:lang="en">Warehouse Management</name>
+    <documentation xml:lang="en">the ability to efficiently oversee and control warehouse operations, optimizing inventory storage, layout, and logistics processes to ensure smooth goods flow in and out of the facility.</documentation>
+</element>
+    
+
+<element identifier="id-9f5314e28df3ea4d360829ad56b5289c" xsi:type="Capability">
+    <name xml:lang="en">Yard Management</name>
+    <documentation xml:lang="en">the ability to manage a yard facility</documentation>
+</element>
+    
+
+<element identifier="id-b39b78ae05401c9b53a463a7302c333e" xsi:type="Capability">
+    <name xml:lang="en">Dock Management</name>
+    <documentation xml:lang="en">the ability to manage a number of docks</documentation>
+</element>
+    
+
+<element identifier="id-1be0a40fdfdf72f28aedda013f6c3464" xsi:type="Capability">
+    <name xml:lang="en">Gate Management</name>
+    <documentation xml:lang="en">the ability to manage various gates around a yard facility</documentation>
+</element>
+    
+
+<element identifier="id-6e51fcfe6ceed7ed87e6be48eb7ace97" xsi:type="Capability">
+    <name xml:lang="en">Fleet  and Equipment Management</name>
+    <documentation xml:lang="en">the ability to effectively procure, maintain, and optimize fleet and equipment assets to support operational needs</documentation>
+</element>
+    
+
+<element identifier="id-477cf79ac982d451d4fa805ea9024947" xsi:type="Capability">
+    <name xml:lang="en">Intenal Trailer Management</name>
+    <documentation xml:lang="en">the ability to manage and maintain trailers, including tracking their condition and availability</documentation>
+</element>
+    
+
+<element identifier="id-4dc51eeb9a85b873948957fe6773cad8" xsi:type="Capability">
+    <name xml:lang="en">Local Fleet  and Truck Management</name>
+    <documentation xml:lang="en">The ability to manage  and maintain local fleets, including tracking their condition  and availability, scheduling  and tracking of maintenance</documentation>
+</element>
+    
+
+<element identifier="id-116f6d14798ba22f45f484dea206bab8" xsi:type="Capability">
+    <name xml:lang="en">Internal Machinery and Tools Management</name>
+    <documentation xml:lang="en">The ability to manage  and maintain machinery and tools, including tracking their condition, scheduling  and tracking of maintenance</documentation>
+</element>
+    
+
+<element identifier="id-aead83f138002d7776712f7e75e358f4" xsi:type="Capability">
+    <name xml:lang="en">Maintenance Scheduling  and Tracking</name>
+    <documentation xml:lang="en">the ability to schedule and track maintenance activities for fleet and equipment to optimize their performance and longevity</documentation>
+</element>
+    
+
+<element identifier="id-807b53e9f3e2ed41c74ff981d8df4fe9" xsi:type="Capability">
+    <name xml:lang="en">Fleet  and Equipment Optimization</name>
+    <documentation xml:lang="en">the ability to optimize the usage and performance of the entire fleet and equipment inventory for operational efficiency</documentation>
+</element>
+    
+
+<element identifier="id-954d397e48e96e6bd1798ecf7f9072c9" xsi:type="Capability">
+    <name xml:lang="en">External Equipment Management</name>
+    <documentation xml:lang="en">the ability to effectively manage hauliers, external equipment, and documentation ensuring their proper utilization and compliance</documentation>
+</element>
+    
+
+<element identifier="id-540e2b98c5d82862b5cadfc3b0d39034" xsi:type="Capability">
+    <name xml:lang="en">Claims Management</name>
+    <documentation xml:lang="en">the ability to manage and resolve claims related to provided or received service.</documentation>
+</element>
+    
+
+<element identifier="id-ee34cdeed4a514b8c14f5273a663cab0" xsi:type="Capability">
+    <name xml:lang="en">Inventory Management</name>
+    <documentation xml:lang="en">The ability to track, manage and optimize the levels of goods and materials</documentation>
+</element>
+    
+
+<element identifier="id-6a1b075903c091d5418c1af4f5296c5d" xsi:type="Capability">
+    <name xml:lang="en">Storage  and Staging Location Management</name>
+    <documentation xml:lang="en">The ability to storage and manage goods in different location types and manage their availability.</documentation>
+</element>
+    
+
+<element identifier="id-23d5f205a8cc963cceb4d91f4918fa0c" xsi:type="Capability">
+    <name xml:lang="en">Agreement Management / Tariff  and Rate Management</name>
+    <documentation xml:lang="en">the ability to maintain, manage and update the offer/rate base</documentation>
+</element>
+    
+
+<element identifier="id-39a66ea1edfa014bddbf07189f7faff3" xsi:type="Capability">
+    <name xml:lang="en">Internal Agreement Management / External Tariff  and Rates Management</name>
+    <documentation xml:lang="en">the ability to manage internal agreement between business units or departments within the business</documentation>
+</element>
+    
+
+<element identifier="id-7101efd3ba89378e009a112bc849ed6f" xsi:type="Capability">
+    <name xml:lang="en">External Agreement Management / Internal Tariff  and Rates Management</name>
+    <documentation xml:lang="en">the ability to maintain, manage and update external customer and vendor rate base</documentation>
+</element>
+    
+
+<element identifier="id-37405eaf0c4f240f355eabd1b87429d1" xsi:type="Capability">
+    <name xml:lang="en">Self-billing Management</name>
+    <documentation xml:lang="en">the ability to handle invoices and payments prepared by a customer</documentation>
+</element>
+    
+
+<element identifier="id-8fd2b803c5b0bb4d19128d7d6b43625c" xsi:type="Capability">
+    <name xml:lang="en">Operational Controlling</name>
+    <documentation xml:lang="en">the ability to monitor and analyse the business-related financial performance and enable informed decisions.</documentation>
+</element>
+    
+
+<element identifier="id-6b80e918d6e06ec8bd35ca5c74120a8a" xsi:type="Capability">
+    <name xml:lang="en">Operational Estimation Management</name>
+    <documentation xml:lang="en">the ability to generate shipment and transportation unit-based estimations both cost and profit and releasing for invoicing.</documentation>
+</element>
+    
+
+<element identifier="id-3c4ed0a1b2b0d2daa36905b2cf980c18" xsi:type="Capability">
+    <name xml:lang="en">Invoice Management</name>
+    <documentation xml:lang="en">the ability to process and manage supplier invoices, including verification, approval, and posting, to ensure timely and accurate payment while maintaining proper documentation for audit purposes</documentation>
+</element>
+    
+
+<element identifier="id-aec1f5d3700726677fd59fec1e2a082e" xsi:type="Capability">
+    <name xml:lang="en">Internal Settlement</name>
+    <documentation xml:lang="en">the ability to handle settlement between organizations owning the resources used to execute orders and services.</documentation>
+</element>
+    
+
+<element identifier="id-512129e91e789387ca3317062d9f4ec0" xsi:type="Capability">
+    <name xml:lang="en">Cost Management</name>
+    <documentation xml:lang="en">the ability to plan and control cost associated with running the business</documentation>
+</element>
+    
+
+<element identifier="id-d203b389c29054ede766739b595502a4" xsi:type="Capability">
+    <name xml:lang="en">Denied Party Screening</name>
+    <documentation xml:lang="en">the ability to screen parties and identify and comply with existing embargoes</documentation>
+</element>
+    
+
+<element identifier="id-51dad1c9376084211e7431a0c4a39066" xsi:type="Capability">
+    <name xml:lang="en">Customs Management</name>
+    <documentation xml:lang="en">the ability to manage documented permission to pass customs authority of imported goods so that they can enter the country or to exported goods so that they can leave the country</documentation>
+</element>
+    
+
+<element identifier="id-6ce310a1221f344fe21d0980c13e4c44" xsi:type="Capability">
+    <name xml:lang="en">Customs Broakerage</name>
+    <documentation xml:lang="en">The ability to ensure correct customs declarations, including duties, taxes and payments so goods can transit across boarders without disruption also on behalf of a client</documentation>
+</element>
+    
+
+<element identifier="id-f958dc4ad3365aea5d82896ef6d45bb9" xsi:type="Capability">
+    <name xml:lang="en">Customs Export</name>
+    <documentation xml:lang="en">The ability to ensure compliant export procedures </documentation>
+</element>
+    
+
+<element identifier="id-6714198d816bf1c0d21150236e075938" xsi:type="Capability">
+    <name xml:lang="en">Customs Import</name>
+    <documentation xml:lang="en">The ability to ensure compliant import procedures </documentation>
+</element>
+    
+
+<element identifier="id-e50493abb3a908e779cc855037fdca11" xsi:type="Capability">
+    <name xml:lang="en">Supplier Relationship Management</name>
+    <documentation xml:lang="en">the ability to manage and cultivate strong relationships with suppliers to ensure collaboration, performance improvement, and process efficiency</documentation>
+</element>
+    
+
+<element identifier="id-366c4a753a90f63654c13e16f7b6c627" xsi:type="Capability">
+    <name xml:lang="en">Sourcing</name>
+    <documentation xml:lang="en">the ability to strategically evaluate and source suppliers, establishing the relevant contract or agreements</documentation>
+</element>
+    
+
+<element identifier="id-62752fde035652003010d806061e2b17" xsi:type="Capability">
+    <name xml:lang="en">Strategic Sourcing</name>
+    <documentation xml:lang="en">the ability to develop and execute strategic sourcing strategies to optimize supplier selection, cost savings, and value creation</documentation>
+</element>
+    
+
+<element identifier="id-6c92e55abf12cb4f999a193515fa988c" xsi:type="Capability">
+    <name xml:lang="en">Supplier Selection  and Evaluation</name>
+    <documentation xml:lang="en">the ability to methodically select and evaluate suppliers based on criteria such as performance, risk, and compliance to ensure the right partnerships</documentation>
+</element>
+    
+
+<element identifier="id-658762f740072d1067d30a26c5979651" xsi:type="Capability">
+    <name xml:lang="en">Supplier Contract Management</name>
+    <documentation xml:lang="en">the ability to effectively manage and oversee supplier contracts, including negotiation, compliance, and lifecycle management</documentation>
+</element>
+    
+
+<element identifier="id-af45c9fa8b7c2bed1a202b9e06a344f6" xsi:type="Capability">
+    <name xml:lang="en">Supplier Performance Management</name>
+    <documentation xml:lang="en">the ability to monitor, assess, and improve the performance of suppliers to ensure they meet agreed-upon standards and expectations</documentation>
+</element>
+    
+
+<element identifier="id-6d04f4a9b5cffc0fa0580dce18a45292" xsi:type="Capability">
+    <name xml:lang="en">Contract Renewal Management</name>
+    <documentation xml:lang="en">the ability to proactively manage contract renewals, renegotiations, and terminations.</documentation>
+</element>
+    
+
+<element identifier="id-37cb9cd617977c4f3f37bdd25295ebc2" xsi:type="Capability">
+    <name xml:lang="en">Fleet  and Equipment Procurement</name>
+    <documentation xml:lang="en">the ability to procure and acquire fleet and equipment assets to meet operational needs efficiently</documentation>
+</element>
+    
+
+<element identifier="id-aec32c364444c586c547b20b84dff7ab" xsi:type="Capability">
+    <name xml:lang="en">Haulier Procurement</name>
+    <documentation xml:lang="en">the ability to source and acquire haulier services to support transportation and logistics operations</documentation>
+</element>
+    
+
+<element identifier="id-5139ad39162dcc0ea5ef2eef008c15aa" xsi:type="Capability">
+    <name xml:lang="en">Performance Management</name>
+    <documentation xml:lang="en">The ability to set performance targets, track KPIs, and facilitate ongoing dialogue to optimise organisational performance. This ensures alignment with business objectives, timely insights, and actions to address challenges and drive improvement.</documentation>
+</element>
+    
+</elements>
+</model>
