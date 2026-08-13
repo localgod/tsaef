@@ -56,7 +56,7 @@
     "oxfmt": "^0.62.0",
     "oxlint": "^1.50.0",
     "typescript": "^5.9.3",
-    "vitest": "^2.1.8"
+    "vitest": "^4.1.10"
   },
   "allowScripts": {
     "esbuild@0.21.5": true
