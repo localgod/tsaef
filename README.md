@@ -116,7 +116,7 @@ Core domain class. All mutations happen directly on the returned objects.
 - `removeProperty(target, name)`
 - `getPropertyByName(target, name)`
 
-**Views**
+**Views** _(read-only — layout is managed by modelling tools)_
 
 - `getViews()`, `getViewById(id)`, `getViewByName(name)`
 
@@ -139,6 +139,23 @@ Core domain class. All mutations happen directly on the returned objects.
 - `validator.validate(model, options?)` — returns `{ success, errors, warnings }`
 
 Options: `checkReferences` (default `true`), `validateNamespaces`, `strict`
+
+### Error types
+
+Errors thrown by this library are typed so callers can discriminate them:
+
+```typescript
+import { ParseError, IOError } from "tsaef";
+
+try {
+  const model = await tsaef.load("model.xml");
+} catch (e) {
+  if (e instanceof IOError) { /* file not found, permission denied, etc. */ }
+  if (e instanceof ParseError) { /* malformed XML */ }
+}
+```
+
+`ValidationError` is also exported for callers who want to throw on a failed `validate()` result.
 
 ### `PropertyFormatter`
 

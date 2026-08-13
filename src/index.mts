@@ -1,4 +1,5 @@
 export { TsAEF } from "./TsAEF.mjs";
+export { ParseError, IOError, ValidationError } from "./errors.mjs";
 export { Archimate } from "./Archimate.mjs";
 export { Parser } from "./Parser.mjs";
 export { Serializer } from "./Serializer.mjs";

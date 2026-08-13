@@ -1,5 +1,6 @@
 import { XMLParser } from "fast-xml-parser";
 import { Archimate } from "./Archimate.mjs";
+import { ParseError } from "./errors.mjs";
 import type { Model } from "./interfaces/Model.mjs";
 import type { Element } from "./interfaces/Element.mjs";
 import type { Relationship } from "./interfaces/Relationship.mjs";
@@ -40,7 +41,7 @@ export class Parser {
       const rawModel: RawNode = raw["model"] ?? raw;
       return new Archimate(Parser.mapModel(rawModel));
     } catch (error) {
-      throw new Error("Failed to parse AEF XML", { cause: error });
+      throw new ParseError("Failed to parse AEF XML", { cause: error });
     }
   }
 

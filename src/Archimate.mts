@@ -148,7 +148,7 @@ export class Archimate {
     let def = this.model.propertyDefinitions.find((d) => d.name === name);
     if (!def) {
       def = {
-        identifier: this.predictNextPropertyKey(),
+        identifier: Archimate.generateRandomId(),
         type: "string",
         name,
       };
@@ -213,18 +213,6 @@ export class Archimate {
     clean(this.model.elements);
     clean(this.model.relationships);
     clean(this.model.views);
-  }
-
-  private predictNextPropertyKey(): string {
-    let max = 0;
-    for (const def of this.model.propertyDefinitions) {
-      const match = def.identifier.match(/propid-(\d+)/);
-      if (match) {
-        const n = parseInt(match[1], 10);
-        if (n > max) max = n;
-      }
-    }
-    return `propid-${max + 1}`;
   }
 
   private static generateRandomId(): string {

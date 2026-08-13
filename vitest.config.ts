@@ -5,5 +5,9 @@ export default defineConfig({
     environment: 'node',
     globals: false,
     include: ['tests/**/*.test.mts'],
+    coverage: {
+      provider: 'v8',
+      include: ['src/**/*.mts'],
+    },
   },
 });
