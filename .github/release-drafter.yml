@@ -1,7 +1,31 @@
 template: |
-  ## What's Changed
   $CHANGES
 
 categories:
-  - title: '📦 Dependencies'
-    label: 'dependencies'
+  - title: '### Added'
+    labels:
+      - 'feature'
+      - 'enhancement'
+  - title: '### Changed'
+    labels:
+      - 'change'
+      - 'refactor'
+      - 'improvement'
+  - title: '### Fixed'
+    labels:
+      - 'fix'
+      - 'bug'
+  - title: '### Removed'
+    labels:
+      - 'removal'
+      - 'removed'
+  - title: '### Security'
+    labels:
+      - 'security'
+  - title: '### Dependencies'
+    labels:
+      - 'dependencies'
+
+change-template: '- $TITLE (#$NUMBER)'
+exclude-labels:
+  - 'skip-changelog'
