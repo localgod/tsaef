@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.3.0] - 2026-09-12
+
+## What's Changed
+
+- chore(deps-dev): bump oxfmt from 0.62.0 to 0.63.0 by @dependabot[bot] in https://github.com/localgod/tsaef/pull/15
+- fix(deps): bump fast-xml-parser from 5.10.1 to 5.11.0 by @dependabot[bot] in https://github.com/localgod/tsaef/pull/14
+- chore(deps-dev): bump vitest from 4.1.10 to 4.1.11 by @dependabot[bot] in https://github.com/localgod/tsaef/pull/19
+- chore(deps-dev): bump oxlint from 1.78.0 to 1.79.0 by @dependabot[bot] in https://github.com/localgod/tsaef/pull/18
+- chore(deps-dev): bump oxfmt from 0.63.0 to 0.64.0 by @dependabot[bot] in https://github.com/localgod/tsaef/pull/17
+- chore(deps-dev): bump @vitest/coverage-v8 from 4.1.10 to 4.1.11 by @dependabot[bot] in https://github.com/localgod/tsaef/pull/16
+- fix(deps): bump zod from 4.4.3 to 4.5.4 by @dependabot[bot] in https://github.com/localgod/tsaef/pull/24
+- chore(deps-dev): bump @types/node from 26.2.0 to 26.4.0 by @dependabot[bot] in https://github.com/localgod/tsaef/pull/23
+- fix(deps): bump fast-xml-parser from 5.11.0 to 5.11.1 by @dependabot[bot] in https://github.com/localgod/tsaef/pull/22
+- chore(deps-dev): bump oxlint from 1.79.0 to 1.80.0 by @dependabot[bot] in https://github.com/localgod/tsaef/pull/21
+- chore(deps-dev): bump oxfmt from 0.64.0 to 0.65.0 by @dependabot[bot] in https://github.com/localgod/tsaef/pull/20
+- chore(deps-dev): bump vitest from 4.1.11 to 5.0.0 by @dependabot[bot] in https://github.com/localgod/tsaef/pull/29
+- chore(deps-dev): bump @types/node from 26.4.0 to 26.4.1 by @dependabot[bot] in https://github.com/localgod/tsaef/pull/28
+- chore(deps-dev): bump oxlint from 1.80.0 to 1.81.0 by @dependabot[bot] in https://github.com/localgod/tsaef/pull/27
+- chore(deps-dev): bump oxfmt from 0.65.0 to 0.66.0 by @dependabot[bot] in https://github.com/localgod/tsaef/pull/26
+- chore(deps-dev): bump @vitest/coverage-v8 from 4.1.11 to 5.0.0 by @dependabot[bot] in https://github.com/localgod/tsaef/pull/25
+
+**Full Changelog**: https://github.com/localgod/tsaef/compare/0.2.0...0.3.0
+
 ## [0.2.0] - 2026-08-13
 
 ## What's Changed
