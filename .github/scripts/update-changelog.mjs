@@ -6,6 +6,8 @@ const body = process.env.RELEASE_BODY ?? '';
 const version = tag.replace(/^v/, '');
 
 const changelog = readFileSync('CHANGELOG.md', 'utf-8');
+if (changelog.includes(`## [${version}] -`)) process.exit(0);
+
 const insertAt = changelog.indexOf('\n## ');
 
 const newEntry = `\n## [${version}] - ${dateStr}\n\n${body.trim()}\n`;

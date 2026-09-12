@@ -1,4 +1,4 @@
-import { XMLParser } from "fast-xml-parser";
+import { XMLParser, XMLValidator } from "fast-xml-parser";
 import { Archimate } from "./Archimate.mjs";
 import { ParseError } from "./errors.mjs";
 import type { Model } from "./interfaces/Model.mjs";
@@ -36,11 +36,16 @@ type RawNode = Record<string, any>;
 export class Parser {
   static parse(xml: string): Archimate {
     try {
+      const validation = XMLValidator.validate(xml);
+      if (validation !== true) {
+        throw new ParseError(`Invalid XML: ${validation.err.msg}`);
+      }
       const parser = new XMLParser(PARSER_OPTIONS);
       const raw: RawNode = parser.parse(xml);
       const rawModel: RawNode = raw["model"] ?? raw;
       return new Archimate(Parser.mapModel(rawModel));
     } catch (error) {
+      if (error instanceof ParseError) throw error;
       throw new ParseError("Failed to parse AEF XML", { cause: error });
     }
   }
@@ -54,6 +59,9 @@ export class Parser {
       name: Parser.getText(raw["name"]),
       lang: Parser.getLang(raw["name"]),
       documentation: raw["documentation"] ? Parser.getText(raw["documentation"]) : undefined,
+      documentationLang: raw["documentation"]
+        ? Parser.getLang(raw["documentation"])
+        : undefined,
       elements: Parser.asArray(raw["elements"]?.["element"]).map(Parser.mapElement),
       relationships: Parser.asArray(raw["relationships"]?.["relationship"]).map(
         Parser.mapRelationship,
@@ -73,7 +81,10 @@ export class Parser {
       name: Parser.getText(raw["name"]),
       lang: Parser.getLang(raw["name"]),
     };
-    if (raw["documentation"]) el.documentation = Parser.getText(raw["documentation"]);
+    if (raw["documentation"]) {
+      el.documentation = Parser.getText(raw["documentation"]);
+      el.documentationLang = Parser.getLang(raw["documentation"]);
+    }
     const props = Parser.asArray(raw["properties"]?.["property"]).map(Parser.mapProperty);
     if (props.length > 0) el.properties = props;
     return el;
@@ -86,8 +97,14 @@ export class Parser {
       source: raw["@_source"] ?? "",
       target: raw["@_target"] ?? "",
     };
-    if (raw["name"]) rel.name = Parser.getText(raw["name"]);
-    if (raw["documentation"]) rel.documentation = Parser.getText(raw["documentation"]);
+    if (raw["name"]) {
+      rel.name = Parser.getText(raw["name"]);
+      rel.nameLang = Parser.getLang(raw["name"]);
+    }
+    if (raw["documentation"]) {
+      rel.documentation = Parser.getText(raw["documentation"]);
+      rel.documentationLang = Parser.getLang(raw["documentation"]);
+    }
     const props = Parser.asArray(raw["properties"]?.["property"]).map(Parser.mapProperty);
     if (props.length > 0) rel.properties = props;
     return rel;
@@ -148,7 +165,10 @@ export class Parser {
     if (raw["@_y"] !== undefined) node.y = Number(raw["@_y"]);
     if (raw["@_w"] !== undefined) node.w = Number(raw["@_w"]);
     if (raw["@_h"] !== undefined) node.h = Number(raw["@_h"]);
-    if (raw["label"]) node.label = Parser.getText(raw["label"]);
+    if (raw["label"]) {
+      node.label = Parser.getText(raw["label"]);
+      node.labelLang = Parser.getLang(raw["label"]);
+    }
     const childNodes = Parser.asArray(raw["node"]).map(Parser.mapNode);
     if (childNodes.length > 0) node.nodes = childNodes;
     return node;
@@ -162,7 +182,10 @@ export class Parser {
       source: raw["@_source"] ?? "",
       target: raw["@_target"] ?? "",
     };
-    if (raw["label"]) conn.label = Parser.getText(raw["label"]);
+    if (raw["label"]) {
+      conn.label = Parser.getText(raw["label"]);
+      conn.labelLang = Parser.getLang(raw["label"]);
+    }
     return conn;
   }
 

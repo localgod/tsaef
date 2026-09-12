@@ -65,6 +65,35 @@ describe("Validator.validate", () => {
     expect(result.errors.some((e) => e.includes(rel.identifier))).toBe(true);
   });
 
+  it("detects missing property, organization, node, and connection references", () => {
+    const a = Archimate.create("Test");
+    const element = a.upsertElement("Element", "ApplicationComponent");
+    element.properties = [{ definitionRef: "missing-property", value: "value" }];
+    a.toObject().organizations.push({ identifierRef: "missing-organization" });
+    a.getViews().push({
+      identifier: "view-1",
+      name: "View",
+      nodes: [{ identifier: "node-1", elementRef: "missing-element" }],
+      connections: [
+        {
+          identifier: "connection-1",
+          relationshipRef: "missing-relationship",
+          source: "node-1",
+          target: "missing-node",
+        },
+      ],
+    });
+
+    const result = validator.validate(a, { checkReferences: true });
+
+    expect(result.success).toBe(false);
+    expect(result.errors.join(" ")).toContain("missing-property");
+    expect(result.errors.join(" ")).toContain("missing-organization");
+    expect(result.errors.join(" ")).toContain("missing-element");
+    expect(result.errors.join(" ")).toContain("missing-relationship");
+    expect(result.errors.join(" ")).toContain("missing-node");
+  });
+
   it("adds warnings in strict mode for missing documentation", () => {
     const a = Archimate.create("Test");
     a.upsertElement("App", "ApplicationComponent");

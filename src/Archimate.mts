@@ -202,19 +202,6 @@ export class Archimate {
     return this.model;
   }
 
-  cleanupEmptyProperties(): void {
-    const clean = (items: Array<Element | Relationship | View>) => {
-      for (const item of items) {
-        if (item.properties && item.properties.length === 0) {
-          delete item.properties;
-        }
-      }
-    };
-    clean(this.model.elements);
-    clean(this.model.relationships);
-    clean(this.model.views);
-  }
-
   private static generateRandomId(): string {
     const chars = "abcdef0123456789";
     let id = "id-";

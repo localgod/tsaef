@@ -6,6 +6,8 @@ export interface Relationship {
   source: string;
   target: string;
   name?: string;
+  nameLang?: string;
   documentation?: string;
+  documentationLang?: string;
   properties?: Property[];
 }

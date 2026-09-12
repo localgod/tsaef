@@ -6,5 +6,6 @@ export interface Element {
   name: string;
   lang?: string;
   documentation?: string;
+  documentationLang?: string;
   properties?: Property[];
 }

@@ -9,6 +9,7 @@ export interface Model {
   name: string;
   lang?: string;
   documentation?: string;
+  documentationLang?: string;
   xmlns?: string;
   xsiNamespace?: string;
   schemaLocation?: string;

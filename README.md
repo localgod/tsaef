@@ -124,7 +124,6 @@ Core domain class. All mutations happen directly on the returned objects.
 
 - `generateId()` — generate a random AEF-compatible identifier
 - `toObject()` — return the underlying plain `Model` object
-- `cleanupEmptyProperties()` — remove empty property arrays (called automatically by `Serializer`)
 
 ### `Parser`
 
@@ -150,8 +149,12 @@ import { ParseError, IOError } from "tsaef";
 try {
   const model = await tsaef.load("model.xml");
 } catch (e) {
-  if (e instanceof IOError) { /* file not found, permission denied, etc. */ }
-  if (e instanceof ParseError) { /* malformed XML */ }
+  if (e instanceof IOError) {
+    /* file not found, permission denied, etc. */
+  }
+  if (e instanceof ParseError) {
+    /* malformed XML */
+  }
 }
 ```
 
@@ -186,7 +189,7 @@ import type { ArchiMateElementType, ArchiMateRelationshipType } from "tsaef";
 
 ## Requirements
 
-Node.js 18 or later.
+Node.js 20 or later.
 
 ## License
 

@@ -115,16 +115,6 @@ describe("Property operations", () => {
   });
 });
 
-describe("cleanupEmptyProperties", () => {
-  it("removes empty properties arrays", () => {
-    const a = Archimate.create("Model");
-    const el = a.upsertElement("App", "ApplicationComponent");
-    el.properties = [];
-    a.cleanupEmptyProperties();
-    expect(el.properties).toBeUndefined();
-  });
-});
-
 describe("Element lookup helpers", () => {
   it("finds element by name", () => {
     const a = Archimate.create("Model");

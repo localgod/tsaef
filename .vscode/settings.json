@@ -3,5 +3,8 @@
     "editor.renderControlCharacters": true,
     "files.insertFinalNewline": true,
     "code-eol.highlightNonDefault": true,
-    "code-eol.highlightExtraWhitespace": true
+    "code-eol.highlightExtraWhitespace": true,
+    "chat.tools.terminal.autoApprove": {
+        "npx vitest": true
+    }
 }

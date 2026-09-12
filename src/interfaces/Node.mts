@@ -7,5 +7,6 @@ export interface Node {
   w?: number;
   h?: number;
   label?: string;
+  labelLang?: string;
   nodes?: Node[];
 }

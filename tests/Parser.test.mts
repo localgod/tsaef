@@ -68,6 +68,10 @@ describe("Parser.parse", () => {
   });
 
   it("throws a descriptive error for malformed XML", () => {
-    expect(() => Parser.parse("<unclosed")).toThrow("Failed to parse AEF XML");
+    expect(() => Parser.parse("<unclosed")).toThrow("Invalid XML");
+  });
+
+  it("rejects XML with mismatched tags", () => {
+    expect(() => Parser.parse("<model><name>Broken</model>")).toThrow("Invalid XML");
   });
 });

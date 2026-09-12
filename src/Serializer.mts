@@ -29,7 +29,6 @@ type RawNode = Record<string, any>;
 
 export class Serializer {
   static serialize(archimate: Archimate): string {
-    archimate.cleanupEmptyProperties();
     const model = archimate.toObject();
     const raw = Serializer.buildModel(model);
     const builder = new XMLBuilder(BUILDER_OPTIONS);
@@ -47,7 +46,7 @@ export class Serializer {
     };
 
     if (model.documentation) {
-      raw["documentation"] = Serializer.langString(model.documentation);
+      raw["documentation"] = Serializer.langString(model.documentation, model.documentationLang);
     }
 
     if (model.elements.length > 0) {
@@ -83,7 +82,9 @@ export class Serializer {
       "@_xsi:type": el.type,
       name: Serializer.langString(el.name, el.lang),
     };
-    if (el.documentation) raw["documentation"] = Serializer.langString(el.documentation);
+    if (el.documentation) {
+      raw["documentation"] = Serializer.langString(el.documentation, el.documentationLang);
+    }
     if (el.properties && el.properties.length > 0) {
       raw["properties"] = { property: el.properties.map(Serializer.buildProperty) };
     }
@@ -97,8 +98,10 @@ export class Serializer {
       "@_source": rel.source,
       "@_target": rel.target,
     };
-    if (rel.name) raw["name"] = Serializer.langString(rel.name);
-    if (rel.documentation) raw["documentation"] = Serializer.langString(rel.documentation);
+    if (rel.name) raw["name"] = Serializer.langString(rel.name, rel.nameLang);
+    if (rel.documentation) {
+      raw["documentation"] = Serializer.langString(rel.documentation, rel.documentationLang);
+    }
     if (rel.properties && rel.properties.length > 0) {
       raw["properties"] = { property: rel.properties.map(Serializer.buildProperty) };
     }
@@ -159,7 +162,7 @@ export class Serializer {
     if (node.y !== undefined) raw["@_y"] = node.y;
     if (node.w !== undefined) raw["@_w"] = node.w;
     if (node.h !== undefined) raw["@_h"] = node.h;
-    if (node.label) raw["label"] = Serializer.langString(node.label);
+    if (node.label) raw["label"] = Serializer.langString(node.label, node.labelLang);
     if (node.nodes && node.nodes.length > 0) {
       raw["node"] = node.nodes.map(Serializer.buildNode);
     }
@@ -174,7 +177,7 @@ export class Serializer {
       "@_source": conn.source,
       "@_target": conn.target,
     };
-    if (conn.label) raw["label"] = Serializer.langString(conn.label);
+    if (conn.label) raw["label"] = Serializer.langString(conn.label, conn.labelLang);
     return raw;
   }
 

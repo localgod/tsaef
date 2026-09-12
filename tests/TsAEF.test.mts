@@ -1,10 +1,11 @@
 import { describe, it, expect, afterEach } from "vitest";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { readFileSync, unlinkSync, existsSync } from "node:fs";
+import { readFileSync, unlinkSync, existsSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { TsAEF } from "../src/TsAEF.mjs";
 import { Archimate } from "../src/Archimate.mjs";
+import { ParseError } from "../src/errors.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FIXTURE_PATH = resolve(__dirname, "fixtures/basic.xml");
@@ -28,6 +29,11 @@ describe("TsAEF.load", () => {
     await expect(tsaef.load("/nonexistent/path/model.xml")).rejects.toThrow(
       "Failed to load AEF file: /nonexistent/path/model.xml",
     );
+  });
+
+  it("preserves parse errors", async () => {
+    writeFileSync(TMP_PATH, "<model><name>Broken</model>", "utf-8");
+    await expect(tsaef.load(TMP_PATH)).rejects.toBeInstanceOf(ParseError);
   });
 });
 

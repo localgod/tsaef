@@ -54,5 +54,6 @@ describe("Serializer.serialize", () => {
     el.properties = [];
     const xml = Serializer.serialize(a);
     expect(xml).not.toContain("<properties");
+    expect(el.properties).toEqual([]);
   });
 });
