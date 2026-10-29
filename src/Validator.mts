@@ -117,6 +117,8 @@ export class Validator {
       }
     };
 
+    checkProperties(`model ${model.identifier}`, model.properties);
+
     for (const element of model.elements) {
       checkProperties(`element ${element.identifier}`, element.properties);
     }

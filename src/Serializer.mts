@@ -49,6 +49,10 @@ export class Serializer {
       raw["documentation"] = Serializer.langString(model.documentation, model.documentationLang);
     }
 
+    if (model.properties && model.properties.length > 0) {
+      raw["properties"] = { property: model.properties.map(Serializer.buildProperty) };
+    }
+
     if (model.elements.length > 0) {
       raw["elements"] = { element: model.elements.map(Serializer.buildElement) };
     }
@@ -127,6 +131,9 @@ export class Serializer {
     const raw: RawNode = {};
     if (org.identifierRef) raw["@_identifierRef"] = org.identifierRef;
     if (org.label) raw["label"] = Serializer.langString(org.label, org.lang);
+    if (org.documentation) {
+      raw["documentation"] = Serializer.langString(org.documentation, org.documentationLang);
+    }
     if (org.items && org.items.length > 0) {
       raw["item"] = org.items.map(Serializer.buildOrganization);
     }
@@ -140,6 +147,9 @@ export class Serializer {
       name: Serializer.langString(view.name, view.lang),
     };
     if (view.viewpoint) raw["@_viewpoint"] = view.viewpoint;
+    if (view.documentation) {
+      raw["documentation"] = Serializer.langString(view.documentation, view.documentationLang);
+    }
     if (view.properties && view.properties.length > 0) {
       raw["properties"] = { property: view.properties.map(Serializer.buildProperty) };
     }
@@ -163,6 +173,9 @@ export class Serializer {
     if (node.w !== undefined) raw["@_w"] = node.w;
     if (node.h !== undefined) raw["@_h"] = node.h;
     if (node.label) raw["label"] = Serializer.langString(node.label, node.labelLang);
+    if (node.documentation) {
+      raw["documentation"] = Serializer.langString(node.documentation, node.documentationLang);
+    }
     if (node.nodes && node.nodes.length > 0) {
       raw["node"] = node.nodes.map(Serializer.buildNode);
     }
@@ -178,6 +191,9 @@ export class Serializer {
       "@_target": conn.target,
     };
     if (conn.label) raw["label"] = Serializer.langString(conn.label, conn.labelLang);
+    if (conn.documentation) {
+      raw["documentation"] = Serializer.langString(conn.documentation, conn.documentationLang);
+    }
     return raw;
   }
 

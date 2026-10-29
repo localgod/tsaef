@@ -94,6 +94,16 @@ describe("Validator.validate", () => {
     expect(result.errors.join(" ")).toContain("missing-node");
   });
 
+  it("detects missing property definitions on model-level properties", () => {
+    const a = Archimate.create("Test");
+    a.toObject().properties = [{ definitionRef: "missing-model-property", value: "value" }];
+
+    const result = validator.validate(a, { checkReferences: true });
+
+    expect(result.success).toBe(false);
+    expect(result.errors.join(" ")).toContain("missing-model-property");
+  });
+
   it("adds warnings in strict mode for missing documentation", () => {
     const a = Archimate.create("Test");
     a.upsertElement("App", "ApplicationComponent");
