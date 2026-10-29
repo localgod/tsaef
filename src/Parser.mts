@@ -62,6 +62,7 @@ export class Parser {
       documentationLang: raw["documentation"]
         ? Parser.getLang(raw["documentation"])
         : undefined,
+      ...Parser.mapProperties(raw),
       elements: Parser.asArray(raw["elements"]?.["element"]).map(Parser.mapElement),
       relationships: Parser.asArray(raw["relationships"]?.["relationship"]).map(
         Parser.mapRelationship,
@@ -133,6 +134,10 @@ export class Parser {
       org.label = Parser.getText(raw["label"]);
       org.lang = Parser.getLang(raw["label"]);
     }
+    if (raw["documentation"]) {
+      org.documentation = Parser.getText(raw["documentation"]);
+      org.documentationLang = Parser.getLang(raw["documentation"]);
+    }
     const items = Parser.asArray(raw["item"]).map(Parser.mapOrganization);
     if (items.length > 0) org.items = items;
     return org;
@@ -145,6 +150,10 @@ export class Parser {
       name: Parser.getText(raw["name"]),
       lang: Parser.getLang(raw["name"]),
     };
+    if (raw["documentation"]) {
+      view.documentation = Parser.getText(raw["documentation"]);
+      view.documentationLang = Parser.getLang(raw["documentation"]);
+    }
     if (raw["@_viewpoint"]) view.viewpoint = raw["@_viewpoint"];
     const nodes = Parser.asArray(raw["node"]).map(Parser.mapNode);
     if (nodes.length > 0) view.nodes = nodes;
@@ -169,6 +178,10 @@ export class Parser {
       node.label = Parser.getText(raw["label"]);
       node.labelLang = Parser.getLang(raw["label"]);
     }
+    if (raw["documentation"]) {
+      node.documentation = Parser.getText(raw["documentation"]);
+      node.documentationLang = Parser.getLang(raw["documentation"]);
+    }
     const childNodes = Parser.asArray(raw["node"]).map(Parser.mapNode);
     if (childNodes.length > 0) node.nodes = childNodes;
     return node;
@@ -186,7 +199,16 @@ export class Parser {
       conn.label = Parser.getText(raw["label"]);
       conn.labelLang = Parser.getLang(raw["label"]);
     }
+    if (raw["documentation"]) {
+      conn.documentation = Parser.getText(raw["documentation"]);
+      conn.documentationLang = Parser.getLang(raw["documentation"]);
+    }
     return conn;
+  }
+
+  private static mapProperties(raw: RawNode): { properties?: Property[] } {
+    const props = Parser.asArray(raw["properties"]?.["property"]).map(Parser.mapProperty);
+    return props.length > 0 ? { properties: props } : {};
   }
 
   private static getText(value: unknown): string {

@@ -1,4 +1,5 @@
 import type { Element } from "./Element.mjs";
+import type { Property } from "./Property.mjs";
 import type { Relationship } from "./Relationship.mjs";
 import type { PropertyDefinition } from "./PropertyDefinition.mjs";
 import type { Organization } from "./Organization.mjs";
@@ -10,6 +11,7 @@ export interface Model {
   lang?: string;
   documentation?: string;
   documentationLang?: string;
+  properties?: Property[];
   xmlns?: string;
   xsiNamespace?: string;
   schemaLocation?: string;

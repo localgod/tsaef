@@ -7,6 +7,8 @@ export interface View {
   type?: string;
   name: string;
   lang?: string;
+  documentation?: string;
+  documentationLang?: string;
   viewpoint?: string;
   nodes?: Node[];
   connections?: Connection[];

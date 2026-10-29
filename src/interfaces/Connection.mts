@@ -6,4 +6,6 @@ export interface Connection {
   target: string;
   label?: string;
   labelLang?: string;
+  documentation?: string;
+  documentationLang?: string;
 }

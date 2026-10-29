@@ -8,5 +8,7 @@ export interface Node {
   h?: number;
   label?: string;
   labelLang?: string;
+  documentation?: string;
+  documentationLang?: string;
   nodes?: Node[];
 }
