@@ -2,6 +2,7 @@ export type { Model } from "./Model.mjs";
 export type { Element } from "./Element.mjs";
 export type { Relationship } from "./Relationship.mjs";
 export type { Property } from "./Property.mjs";
+export type { LangString } from "./LangString.mjs";
 export type { PropertyDefinition } from "./PropertyDefinition.mjs";
 export type { Organization } from "./Organization.mjs";
 export type { View } from "./View.mjs";

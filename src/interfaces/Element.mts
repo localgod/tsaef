@@ -1,3 +1,4 @@
+import type { LangString } from "./LangString.mjs";
 import type { Property } from "./Property.mjs";
 
 export interface Element {
@@ -5,7 +6,9 @@ export interface Element {
   type: string;
   name: string;
   lang?: string;
+  nameTranslations?: LangString[];
   documentation?: string;
   documentationLang?: string;
+  documentationTranslations?: LangString[];
   properties?: Property[];
 }

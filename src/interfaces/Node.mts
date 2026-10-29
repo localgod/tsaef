@@ -1,3 +1,5 @@
+import type { LangString } from "./LangString.mjs";
+
 export interface Node {
   identifier: string;
   type?: string;
@@ -8,7 +10,9 @@ export interface Node {
   h?: number;
   label?: string;
   labelLang?: string;
+  labelTranslations?: LangString[];
   documentation?: string;
   documentationLang?: string;
+  documentationTranslations?: LangString[];
   nodes?: Node[];
 }

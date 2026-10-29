@@ -1,3 +1,4 @@
+import type { LangString } from "./LangString.mjs";
 import type { Element } from "./Element.mjs";
 import type { Property } from "./Property.mjs";
 import type { Relationship } from "./Relationship.mjs";
@@ -9,8 +10,10 @@ export interface Model {
   identifier: string;
   name: string;
   lang?: string;
+  nameTranslations?: LangString[];
   documentation?: string;
   documentationLang?: string;
+  documentationTranslations?: LangString[];
   properties?: Property[];
   xmlns?: string;
   xsiNamespace?: string;

@@ -36,6 +36,7 @@ export type {
   Element,
   Relationship,
   Property,
+  LangString,
   PropertyDefinition,
   Organization,
   View,
