@@ -1,8 +1,8 @@
-import { readFile, writeFile } from "fs/promises";
-import { Archimate } from "./Archimate.mjs";
-import { Parser } from "./Parser.mjs";
-import { Serializer } from "./Serializer.mjs";
-import { IOError, ParseError } from "./errors.mjs";
+import { readFile, writeFile } from "node:fs/promises";
+import type { Archimate } from "../Archimate.mjs";
+import { Parser } from "../Parser.mjs";
+import { Serializer } from "../Serializer.mjs";
+import { IOError, ParseError } from "../errors.mjs";
 
 export class TsAEF {
   async load(filePath: string): Promise<Archimate> {
