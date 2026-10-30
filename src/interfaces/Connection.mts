@@ -1,3 +1,5 @@
+import type { LangString } from "./LangString.mjs";
+
 export interface Connection {
   identifier: string;
   type?: string;
@@ -6,6 +8,8 @@ export interface Connection {
   target: string;
   label?: string;
   labelLang?: string;
+  labelTranslations?: LangString[];
   documentation?: string;
   documentationLang?: string;
+  documentationTranslations?: LangString[];
 }

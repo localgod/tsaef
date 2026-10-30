@@ -4,6 +4,7 @@ import type { Model } from "./interfaces/Model.mjs";
 import type { Element } from "./interfaces/Element.mjs";
 import type { Relationship } from "./interfaces/Relationship.mjs";
 import type { Property } from "./interfaces/Property.mjs";
+import type { LangString } from "./interfaces/LangString.mjs";
 import type { PropertyDefinition } from "./interfaces/PropertyDefinition.mjs";
 import type { Organization } from "./interfaces/Organization.mjs";
 import type { View } from "./interfaces/View.mjs";
@@ -42,11 +43,15 @@ export class Serializer {
       "@_xmlns:xsi": model.xsiNamespace ?? XSI_NAMESPACE,
       "@_xsi:schemaLocation": model.schemaLocation ?? SCHEMA_LOCATION,
       "@_identifier": model.identifier,
-      name: Serializer.langString(model.name, model.lang),
+      name: Serializer.langString(model.name, model.lang, model.nameTranslations),
     };
 
     if (model.documentation) {
-      raw["documentation"] = Serializer.langString(model.documentation, model.documentationLang);
+      raw["documentation"] = Serializer.langString(
+        model.documentation,
+        model.documentationLang,
+        model.documentationTranslations,
+      );
     }
 
     if (model.properties && model.properties.length > 0) {
@@ -84,10 +89,14 @@ export class Serializer {
     const raw: RawNode = {
       "@_identifier": el.identifier,
       "@_xsi:type": el.type,
-      name: Serializer.langString(el.name, el.lang),
+      name: Serializer.langString(el.name, el.lang, el.nameTranslations),
     };
     if (el.documentation) {
-      raw["documentation"] = Serializer.langString(el.documentation, el.documentationLang);
+      raw["documentation"] = Serializer.langString(
+        el.documentation,
+        el.documentationLang,
+        el.documentationTranslations,
+      );
     }
     if (el.properties && el.properties.length > 0) {
       raw["properties"] = { property: el.properties.map(Serializer.buildProperty) };
@@ -102,9 +111,13 @@ export class Serializer {
       "@_source": rel.source,
       "@_target": rel.target,
     };
-    if (rel.name) raw["name"] = Serializer.langString(rel.name, rel.nameLang);
+    if (rel.name) raw["name"] = Serializer.langString(rel.name, rel.nameLang, rel.nameTranslations);
     if (rel.documentation) {
-      raw["documentation"] = Serializer.langString(rel.documentation, rel.documentationLang);
+      raw["documentation"] = Serializer.langString(
+        rel.documentation,
+        rel.documentationLang,
+        rel.documentationTranslations,
+      );
     }
     if (rel.properties && rel.properties.length > 0) {
       raw["properties"] = { property: rel.properties.map(Serializer.buildProperty) };
@@ -115,7 +128,7 @@ export class Serializer {
   private static buildProperty(prop: Property): RawNode {
     return {
       "@_propertyDefinitionRef": prop.definitionRef,
-      value: Serializer.langString(prop.value, prop.lang),
+      value: Serializer.langString(prop.value, prop.lang, prop.valueTranslations),
     };
   }
 
@@ -123,16 +136,20 @@ export class Serializer {
     return {
       "@_identifier": def.identifier,
       "@_type": def.type,
-      name: def.name,
+      name: Serializer.langString(def.name, def.lang, def.nameTranslations),
     };
   }
 
   private static buildOrganization(org: Organization): RawNode {
     const raw: RawNode = {};
     if (org.identifierRef) raw["@_identifierRef"] = org.identifierRef;
-    if (org.label) raw["label"] = Serializer.langString(org.label, org.lang);
+    if (org.label) raw["label"] = Serializer.langString(org.label, org.lang, org.labelTranslations);
     if (org.documentation) {
-      raw["documentation"] = Serializer.langString(org.documentation, org.documentationLang);
+      raw["documentation"] = Serializer.langString(
+        org.documentation,
+        org.documentationLang,
+        org.documentationTranslations,
+      );
     }
     if (org.items && org.items.length > 0) {
       raw["item"] = org.items.map(Serializer.buildOrganization);
@@ -144,11 +161,15 @@ export class Serializer {
     const raw: RawNode = {
       "@_identifier": view.identifier,
       "@_xsi:type": view.type ?? "Diagram",
-      name: Serializer.langString(view.name, view.lang),
+      name: Serializer.langString(view.name, view.lang, view.nameTranslations),
     };
     if (view.viewpoint) raw["@_viewpoint"] = view.viewpoint;
     if (view.documentation) {
-      raw["documentation"] = Serializer.langString(view.documentation, view.documentationLang);
+      raw["documentation"] = Serializer.langString(
+        view.documentation,
+        view.documentationLang,
+        view.documentationTranslations,
+      );
     }
     if (view.properties && view.properties.length > 0) {
       raw["properties"] = { property: view.properties.map(Serializer.buildProperty) };
@@ -172,9 +193,13 @@ export class Serializer {
     if (node.y !== undefined) raw["@_y"] = node.y;
     if (node.w !== undefined) raw["@_w"] = node.w;
     if (node.h !== undefined) raw["@_h"] = node.h;
-    if (node.label) raw["label"] = Serializer.langString(node.label, node.labelLang);
+    if (node.label) raw["label"] = Serializer.langString(node.label, node.labelLang, node.labelTranslations);
     if (node.documentation) {
-      raw["documentation"] = Serializer.langString(node.documentation, node.documentationLang);
+      raw["documentation"] = Serializer.langString(
+        node.documentation,
+        node.documentationLang,
+        node.documentationTranslations,
+      );
     }
     if (node.nodes && node.nodes.length > 0) {
       raw["node"] = node.nodes.map(Serializer.buildNode);
@@ -190,16 +215,25 @@ export class Serializer {
       "@_source": conn.source,
       "@_target": conn.target,
     };
-    if (conn.label) raw["label"] = Serializer.langString(conn.label, conn.labelLang);
+    if (conn.label) raw["label"] = Serializer.langString(conn.label, conn.labelLang, conn.labelTranslations);
     if (conn.documentation) {
-      raw["documentation"] = Serializer.langString(conn.documentation, conn.documentationLang);
+      raw["documentation"] = Serializer.langString(
+        conn.documentation,
+        conn.documentationLang,
+        conn.documentationTranslations,
+      );
     }
     return raw;
   }
 
-  private static langString(text: string, lang?: string): RawNode {
+  private static langString(
+    text: string,
+    lang?: string,
+    translations?: LangString[],
+  ): RawNode | RawNode[] {
     const node: RawNode = { "#text": text };
     if (lang) node["@_xml:lang"] = lang;
-    return node;
+    if (!translations || translations.length === 0) return node;
+    return [node, ...translations.map((t) => Serializer.langString(t.text, t.lang) as RawNode)];
   }
 }

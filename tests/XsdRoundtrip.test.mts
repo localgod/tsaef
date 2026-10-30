@@ -69,6 +69,73 @@ const DOCUMENTED_FIXTURE = `<?xml version="1.0" encoding="UTF-8"?>
   </views>
 </model>`;
 
+const MULTI_LANGUAGE_FIXTURE = `<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.opengroup.org/xsd/archimate/3.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengroup.org/xsd/archimate/3.0/ http://www.opengroup.org/xsd/archimate/3.1/archimate3_Diagram.xsd" identifier="model-1">
+  <name xml:lang="en">Model</name>
+  <name xml:lang="da">Model DA</name>
+  <documentation xml:lang="en">Model docs</documentation>
+  <documentation xml:lang="da">Model docs DA</documentation>
+  <properties>
+    <property propertyDefinitionRef="propdef-1">
+      <value xml:lang="en">Value</value>
+      <value xml:lang="da">Value DA</value>
+    </property>
+  </properties>
+  <elements>
+    <element identifier="element-1" xsi:type="BusinessActor">
+      <name xml:lang="en">Element</name>
+      <name xml:lang="da">Element DA</name>
+      <documentation xml:lang="en">Element docs</documentation>
+      <documentation xml:lang="da">Element docs DA</documentation>
+    </element>
+  </elements>
+  <relationships>
+    <relationship identifier="relationship-1" xsi:type="Association" source="element-1" target="element-1">
+      <name xml:lang="en">Relationship</name>
+      <name xml:lang="da">Relationship DA</name>
+      <documentation xml:lang="en">Relationship docs</documentation>
+      <documentation>Relationship docs, no lang</documentation>
+    </relationship>
+  </relationships>
+  <organizations>
+    <item>
+      <label xml:lang="en">Folder</label>
+      <label xml:lang="da">Folder DA</label>
+      <documentation xml:lang="en">Folder docs</documentation>
+      <documentation xml:lang="da">Folder docs DA</documentation>
+      <item identifierRef="element-1" />
+    </item>
+  </organizations>
+  <propertyDefinitions>
+    <propertyDefinition identifier="propdef-1" type="string">
+      <name xml:lang="en">Owner</name>
+      <name xml:lang="da">Ejer</name>
+    </propertyDefinition>
+  </propertyDefinitions>
+  <views>
+    <diagrams>
+      <view identifier="view-1" xsi:type="Diagram">
+        <name xml:lang="en">View</name>
+        <name xml:lang="da">View DA</name>
+        <documentation xml:lang="en">View docs</documentation>
+        <documentation xml:lang="da">View docs DA</documentation>
+        <node identifier="node-1" xsi:type="Element" elementRef="element-1" x="0" y="0" w="120" h="55">
+          <label xml:lang="en">Node</label>
+          <label xml:lang="da">Node DA</label>
+          <documentation xml:lang="en">Node docs</documentation>
+          <documentation xml:lang="da">Node docs DA</documentation>
+        </node>
+        <connection identifier="connection-1" xsi:type="Relationship" relationshipRef="relationship-1" source="node-1" target="node-1">
+          <label xml:lang="en">Connection</label>
+          <label xml:lang="da">Connection DA</label>
+          <documentation xml:lang="en">Connection docs</documentation>
+          <documentation xml:lang="da">Connection docs DA</documentation>
+        </connection>
+      </view>
+    </diagrams>
+  </views>
+</model>`;
+
 function roundtrip(xml: string) {
   const first = Parser.parse(xml);
   const serialized = Serializer.serialize(first);
@@ -134,5 +201,82 @@ describe("XSD: documentation on views, organizations, nodes and connections", ()
       documentation: "Connection documentation",
       documentationLang: "en",
     });
+  });
+});
+
+describe("XSD: multi-language text", () => {
+  it("fixture is valid against the XSD", async () => {
+    expect(await xsdErrors(MULTI_LANGUAGE_FIXTURE)).toEqual([]);
+  });
+
+  it("keeps every language through a round-trip and serializes to valid XML", async () => {
+    const { first, second, serialized } = roundtrip(MULTI_LANGUAGE_FIXTURE);
+    expect(second.toObject()).toEqual(first.toObject());
+    expect(await xsdErrors(serialized)).toEqual([]);
+    expect(serialized.match(/xml:lang="da"/g)).toHaveLength(
+      MULTI_LANGUAGE_FIXTURE.match(/xml:lang="da"/g)!.length,
+    );
+
+    const da = (text: string) => [{ text, lang: "da" }];
+    const model = second.toObject();
+    expect(model).toMatchObject({
+      name: "Model",
+      lang: "en",
+      nameTranslations: da("Model DA"),
+      documentation: "Model docs",
+      documentationLang: "en",
+      documentationTranslations: da("Model docs DA"),
+    });
+    expect(model.properties![0]).toMatchObject({
+      value: "Value",
+      lang: "en",
+      valueTranslations: da("Value DA"),
+    });
+    expect(model.elements[0]).toMatchObject({
+      name: "Element",
+      nameTranslations: da("Element DA"),
+      documentation: "Element docs",
+      documentationTranslations: da("Element docs DA"),
+    });
+    expect(model.relationships[0]).toMatchObject({
+      name: "Relationship",
+      nameLang: "en",
+      nameTranslations: da("Relationship DA"),
+      documentationTranslations: [{ text: "Relationship docs, no lang" }],
+    });
+    expect(model.organizations[0]).toMatchObject({
+      label: "Folder",
+      labelTranslations: da("Folder DA"),
+      documentationTranslations: da("Folder docs DA"),
+    });
+    expect(model.propertyDefinitions[0]).toMatchObject({
+      name: "Owner",
+      lang: "en",
+      nameTranslations: da("Ejer"),
+    });
+    const view = model.views[0];
+    expect(view).toMatchObject({
+      name: "View",
+      nameTranslations: da("View DA"),
+      documentationTranslations: da("View docs DA"),
+    });
+    expect(view.nodes![0]).toMatchObject({
+      label: "Node",
+      labelTranslations: da("Node DA"),
+      documentationTranslations: da("Node docs DA"),
+    });
+    expect(view.connections![0]).toMatchObject({
+      label: "Connection",
+      labelTranslations: da("Connection DA"),
+      documentationTranslations: da("Connection docs DA"),
+    });
+  });
+
+  it("leaves translation fields unset for single-language text", () => {
+    const element = Parser.parse(
+      MULTI_LANGUAGE_FIXTURE.replace(/\n\s*<name xml:lang="da">Element DA<\/name>/, ""),
+    ).toObject().elements[0];
+    expect(element.name).toBe("Element");
+    expect(element).not.toHaveProperty("nameTranslations");
   });
 });
