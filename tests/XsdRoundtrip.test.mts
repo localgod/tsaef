@@ -554,3 +554,19 @@ describe("XSD: node and connection style, connection bendpoints", () => {
     expect([...positions].sort((x, y) => x - y)).toEqual(positions);
   });
 });
+
+describe("Validator: XSD-valid fixtures", () => {
+  const fixtures: [string, string][] = [
+    ...EXAMPLES.map((name): [string, string] => [name, readExample(name)]),
+    ["DOCUMENTED_FIXTURE", DOCUMENTED_FIXTURE],
+    ["MULTI_LANGUAGE_FIXTURE", MULTI_LANGUAGE_FIXTURE],
+    ["RELATIONSHIP_ATTRIBUTES_FIXTURE", RELATIONSHIP_ATTRIBUTES_FIXTURE],
+    ["LINE_CONNECTION_FIXTURE", LINE_CONNECTION_FIXTURE],
+    ["STYLE_FIXTURE", STYLE_FIXTURE],
+  ];
+
+  it.each(fixtures)("%s passes validation", (_name, xml) => {
+    const result = new Validator().validate(Parser.parse(xml), { checkReferences: true });
+    expect(result.errors).toEqual([]);
+  });
+});
