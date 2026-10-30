@@ -10,6 +10,7 @@ import type { Organization } from "./interfaces/Organization.mjs";
 import type { View } from "./interfaces/View.mjs";
 import type { Node } from "./interfaces/Node.mjs";
 import type { Connection } from "./interfaces/Connection.mjs";
+import type { RGBColor, Style } from "./interfaces/Style.mjs";
 import {
   ARCHIMATE_NAMESPACE,
   XSI_NAMESPACE,
@@ -209,6 +210,7 @@ export class Serializer {
         node.documentationTranslations,
       );
     }
+    if (node.style) raw["style"] = Serializer.buildStyle(node.style);
     if (node.nodes && node.nodes.length > 0) {
       raw["node"] = node.nodes.map(Serializer.buildNode);
     }
@@ -231,6 +233,33 @@ export class Serializer {
         conn.documentationTranslations,
       );
     }
+    if (conn.style) raw["style"] = Serializer.buildStyle(conn.style);
+    if (conn.bendpoints && conn.bendpoints.length > 0) {
+      raw["bendpoint"] = conn.bendpoints.map((point) => ({ "@_x": point.x, "@_y": point.y }));
+    }
+    return raw;
+  }
+
+  // Child elements must follow the XSD sequence: lineColor, fillColor, font.
+  private static buildStyle(style: Style): RawNode {
+    const raw: RawNode = {};
+    if (style.lineWidth !== undefined) raw["@_lineWidth"] = style.lineWidth;
+    if (style.lineColor) raw["lineColor"] = Serializer.buildColor(style.lineColor);
+    if (style.fillColor) raw["fillColor"] = Serializer.buildColor(style.fillColor);
+    if (style.font) {
+      const font: RawNode = {};
+      if (style.font.name !== undefined) font["@_name"] = style.font.name;
+      if (style.font.size !== undefined) font["@_size"] = style.font.size;
+      if (style.font.style !== undefined) font["@_style"] = style.font.style;
+      if (style.font.color) font["color"] = Serializer.buildColor(style.font.color);
+      raw["font"] = font;
+    }
+    return raw;
+  }
+
+  private static buildColor(color: RGBColor): RawNode {
+    const raw: RawNode = { "@_r": color.r, "@_g": color.g, "@_b": color.b };
+    if (color.a !== undefined) raw["@_a"] = color.a;
     return raw;
   }
 

@@ -11,6 +11,7 @@ import type { Organization } from "./interfaces/Organization.mjs";
 import type { View } from "./interfaces/View.mjs";
 import type { Node } from "./interfaces/Node.mjs";
 import type { Connection } from "./interfaces/Connection.mjs";
+import type { Font, Point, RGBColor, Style } from "./interfaces/Style.mjs";
 
 const ARRAY_TAGS = new Set([
   "element",
@@ -21,6 +22,7 @@ const ARRAY_TAGS = new Set([
   "view",
   "node",
   "connection",
+  "bendpoint",
 ]);
 
 const PARSER_OPTIONS = {
@@ -203,6 +205,7 @@ export class Parser {
       node.documentationLang = Parser.getLang(raw["documentation"]);
       Object.assign(node, Parser.translations("documentationTranslations", raw["documentation"]));
     }
+    if (raw["style"]) node.style = Parser.mapStyle(raw["style"]);
     const childNodes = Parser.asArray(raw["node"]).map(Parser.mapNode);
     if (childNodes.length > 0) node.nodes = childNodes;
     return node;
@@ -226,7 +229,41 @@ export class Parser {
       conn.documentationLang = Parser.getLang(raw["documentation"]);
       Object.assign(conn, Parser.translations("documentationTranslations", raw["documentation"]));
     }
+    if (raw["style"]) conn.style = Parser.mapStyle(raw["style"]);
+    const bendpoints = Parser.asArray(raw["bendpoint"]).map(Parser.mapPoint);
+    if (bendpoints.length > 0) conn.bendpoints = bendpoints;
     return conn;
+  }
+
+  private static mapStyle(raw: RawNode): Style {
+    const style: Style = {};
+    if (raw["lineColor"]) style.lineColor = Parser.mapColor(raw["lineColor"]);
+    if (raw["fillColor"]) style.fillColor = Parser.mapColor(raw["fillColor"]);
+    if (raw["@_lineWidth"] !== undefined) style.lineWidth = Number(raw["@_lineWidth"]);
+    if (raw["font"]) {
+      const rawFont: RawNode = raw["font"];
+      const font: Font = {};
+      if (rawFont["@_name"] !== undefined) font.name = rawFont["@_name"];
+      if (rawFont["@_size"] !== undefined) font.size = Number(rawFont["@_size"]);
+      if (rawFont["@_style"] !== undefined) font.style = rawFont["@_style"];
+      if (rawFont["color"]) font.color = Parser.mapColor(rawFont["color"]);
+      style.font = font;
+    }
+    return style;
+  }
+
+  private static mapColor(raw: RawNode): RGBColor {
+    const color: RGBColor = {
+      r: Number(raw["@_r"]),
+      g: Number(raw["@_g"]),
+      b: Number(raw["@_b"]),
+    };
+    if (raw["@_a"] !== undefined) color.a = Number(raw["@_a"]);
+    return color;
+  }
+
+  private static mapPoint(raw: RawNode): Point {
+    return { x: Number(raw["@_x"]), y: Number(raw["@_y"]) };
   }
 
   private static mapProperties(raw: RawNode): { properties?: Property[] } {

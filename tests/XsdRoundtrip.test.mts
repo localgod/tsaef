@@ -194,6 +194,54 @@ const LINE_CONNECTION_FIXTURE = `<?xml version="1.0" encoding="UTF-8"?>
   </views>
 </model>`;
 
+const STYLE_FIXTURE = `<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.opengroup.org/xsd/archimate/3.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengroup.org/xsd/archimate/3.0/ http://www.opengroup.org/xsd/archimate/3.1/archimate3_Diagram.xsd" identifier="model-1">
+  <name xml:lang="en">Model</name>
+  <elements>
+    <element identifier="group" xsi:type="Grouping"><name>Group</name></element>
+    <element identifier="app" xsi:type="ApplicationComponent"><name>App</name></element>
+    <element identifier="data" xsi:type="DataObject"><name>Data</name></element>
+  </elements>
+  <relationships>
+    <relationship identifier="access" xsi:type="Access" source="app" target="data" />
+  </relationships>
+  <views>
+    <diagrams>
+      <view identifier="view-1" xsi:type="Diagram">
+        <name xml:lang="en">View</name>
+        <node identifier="node-group" xsi:type="Element" elementRef="group" x="0" y="0" w="400" h="200">
+          <label xml:lang="en">Group</label>
+          <documentation xml:lang="en">Group node</documentation>
+          <style lineWidth="2">
+            <lineColor r="92" g="92" b="92" />
+            <fillColor r="210" g="215" b="215" a="50" />
+            <font name="Segoe UI" size="10.5" style="bold italic">
+              <color r="0" g="0" b="128" />
+            </font>
+          </style>
+          <node identifier="node-app" xsi:type="Element" elementRef="app" x="20" y="40" w="120" h="55">
+            <style>
+              <fillColor r="181" g="255" b="255" />
+            </style>
+          </node>
+        </node>
+        <node identifier="node-data" xsi:type="Element" elementRef="data" x="600" y="40" w="120" h="55">
+          <style />
+        </node>
+        <connection identifier="conn-access" xsi:type="Relationship" relationshipRef="access" source="node-app" target="node-data">
+          <label xml:lang="en">reads</label>
+          <style lineWidth="1">
+            <lineColor r="255" g="0" b="0" a="100" />
+            <font size="9" />
+          </style>
+          <bendpoint x="300" y="67" />
+          <bendpoint x="300" y="120" />
+        </connection>
+      </view>
+    </diagrams>
+  </views>
+</model>`;
+
 function roundtrip(xml: string) {
   const first = Parser.parse(xml);
   const serialized = Serializer.serialize(first);
@@ -429,5 +477,80 @@ describe("XSD: Line connections and default connection types", () => {
     expect(xml).toMatch(/identifier="conn-rel" xsi:type="Relationship"/);
     expect(xml).toMatch(/identifier="conn-line" xsi:type="Line" source=/);
     expect(await xsdErrors(xml)).toEqual([]);
+  });
+});
+
+describe("XSD: node and connection style, connection bendpoints", () => {
+  it("fixture is valid against the XSD", async () => {
+    expect(await xsdErrors(STYLE_FIXTURE)).toEqual([]);
+  });
+
+  it("round-trips styles and bendpoints and serializes to valid XML", async () => {
+    const { first, second, serialized } = roundtrip(STYLE_FIXTURE);
+    expect(second.toObject()).toEqual(first.toObject());
+    expect(await xsdErrors(serialized)).toEqual([]);
+
+    const view = second.toObject().views[0];
+    const group = view.nodes![0];
+    expect(group.style).toEqual({
+      lineWidth: 2,
+      lineColor: { r: 92, g: 92, b: 92 },
+      fillColor: { r: 210, g: 215, b: 215, a: 50 },
+      font: { name: "Segoe UI", size: 10.5, style: "bold italic", color: { r: 0, g: 0, b: 128 } },
+    });
+    expect(group.nodes![0].style).toEqual({ fillColor: { r: 181, g: 255, b: 255 } });
+    // An empty <style /> carries nothing and is dropped.
+    expect(view.nodes![1]).not.toHaveProperty("style");
+
+    const connection = view.connections![0];
+    expect(connection.style).toEqual({
+      lineWidth: 1,
+      lineColor: { r: 255, g: 0, b: 0, a: 100 },
+      font: { size: 9 },
+    });
+    expect(connection.bendpoints).toEqual([
+      { x: 300, y: 67 },
+      { x: 300, y: 120 },
+    ]);
+  });
+
+  it("writes style children in XSD order and bendpoints after style", async () => {
+    const a = Archimate.create("Test", "model-1");
+    const src = a.upsertElement("Src", "ApplicationComponent");
+    const tgt = a.upsertElement("Tgt", "Capability");
+    const rel = a.upsertRelationship(src.identifier, tgt.identifier, "Realization");
+    const style = {
+      font: { name: "Arial", color: { r: 1, g: 2, b: 3 } },
+      fillColor: { r: 10, g: 20, b: 30 },
+      lineColor: { r: 40, g: 50, b: 60 },
+    };
+    a.getViews().push({
+      identifier: "view-1",
+      name: "View",
+      nodes: [
+        { identifier: "node-src", elementRef: src.identifier, x: 0, y: 0, w: 120, h: 55, style },
+        { identifier: "node-tgt", elementRef: tgt.identifier, x: 300, y: 0, w: 120, h: 55 },
+      ],
+      connections: [
+        {
+          identifier: "conn",
+          relationshipRef: rel.identifier,
+          source: "node-src",
+          target: "node-tgt",
+          bendpoints: [{ x: 200, y: 100 }],
+          style,
+          documentation: "Docs",
+        },
+      ],
+    });
+
+    const xml = Serializer.serialize(a);
+
+    expect(await xsdErrors(xml)).toEqual([]);
+    const connectionXml = xml.slice(xml.indexOf("<connection"));
+    const order = ["<documentation", "<style", "<lineColor", "<fillColor", "<font", "<bendpoint"];
+    const positions = order.map((tag) => connectionXml.indexOf(tag));
+    expect(positions.every((position) => position >= 0)).toBe(true);
+    expect([...positions].sort((x, y) => x - y)).toEqual(positions);
   });
 });
