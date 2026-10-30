@@ -129,7 +129,9 @@ export class Validator {
   private checkReferences(archimate: Archimate, result: ValidationResult): void {
     const model = archimate.toObject();
     const elementIds = new Set(model.elements.map((element) => element.identifier));
-    const relationshipIds = new Set(model.relationships.map((relationship) => relationship.identifier));
+    const relationshipIds = new Set(
+      model.relationships.map((relationship) => relationship.identifier),
+    );
     const propertyDefinitionIds = new Set(
       model.propertyDefinitions.map((definition) => definition.identifier),
     );
@@ -160,10 +162,14 @@ export class Validator {
     const relationshipEndpointIds = new Set([...elementIds, ...relationshipIds]);
     for (const relationship of model.relationships) {
       if (!relationshipEndpointIds.has(relationship.source)) {
-        addError(`Relationship ${relationship.identifier}: source '${relationship.source}' not found`);
+        addError(
+          `Relationship ${relationship.identifier}: source '${relationship.source}' not found`,
+        );
       }
       if (!relationshipEndpointIds.has(relationship.target)) {
-        addError(`Relationship ${relationship.identifier}: target '${relationship.target}' not found`);
+        addError(
+          `Relationship ${relationship.identifier}: target '${relationship.target}' not found`,
+        );
       }
       checkProperties(`relationship ${relationship.identifier}`, relationship.properties);
     }
@@ -196,10 +202,14 @@ export class Validator {
       for (const connection of connections) {
         const type = connection.type ?? (connection.relationshipRef ? "Relationship" : "Line");
         if (type === "Relationship" && !connection.relationshipRef) {
-          addError(`Connection ${connection.identifier}: Relationship connection has no relationshipRef`);
+          addError(
+            `Connection ${connection.identifier}: Relationship connection has no relationshipRef`,
+          );
         }
         if (type === "Line" && connection.relationshipRef) {
-          addError(`Connection ${connection.identifier}: Line connection cannot have a relationshipRef`);
+          addError(
+            `Connection ${connection.identifier}: Line connection cannot have a relationshipRef`,
+          );
         }
         if (connection.relationshipRef && !relationshipIds.has(connection.relationshipRef)) {
           addError(

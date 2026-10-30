@@ -2,30 +2,30 @@ template: |
   $CHANGES
 
 categories:
-  - title: '### Added'
+  - title: "### Added"
     labels:
-      - 'feature'
-      - 'enhancement'
-  - title: '### Changed'
+      - "feature"
+      - "enhancement"
+  - title: "### Changed"
     labels:
-      - 'change'
-      - 'refactor'
-      - 'improvement'
-  - title: '### Fixed'
+      - "change"
+      - "refactor"
+      - "improvement"
+  - title: "### Fixed"
     labels:
-      - 'fix'
-      - 'bug'
-  - title: '### Removed'
+      - "fix"
+      - "bug"
+  - title: "### Removed"
     labels:
-      - 'removal'
-      - 'removed'
-  - title: '### Security'
+      - "removal"
+      - "removed"
+  - title: "### Security"
     labels:
-      - 'security'
-  - title: '### Dependencies'
+      - "security"
+  - title: "### Dependencies"
     labels:
-      - 'dependencies'
+      - "dependencies"
 
-change-template: '- $TITLE (#$NUMBER)'
+change-template: "- $TITLE (#$NUMBER)"
 exclude-labels:
-  - 'skip-changelog'
+  - "skip-changelog"

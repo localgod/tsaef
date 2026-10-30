@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect } from "vite-plus/test";
 import { Archimate } from "../src/Archimate.mjs";
 import { Validator } from "../src/Validator.mjs";
 

@@ -63,9 +63,7 @@ export class Parser {
       lang: Parser.getLang(raw["name"]),
       ...Parser.translations("nameTranslations", raw["name"]),
       documentation: raw["documentation"] ? Parser.getText(raw["documentation"]) : undefined,
-      documentationLang: raw["documentation"]
-        ? Parser.getLang(raw["documentation"])
-        : undefined,
+      documentationLang: raw["documentation"] ? Parser.getLang(raw["documentation"]) : undefined,
       ...Parser.translations("documentationTranslations", raw["documentation"]),
       ...Parser.mapProperties(raw),
       elements: Parser.asArray(raw["elements"]?.["element"]).map(Parser.mapElement),

@@ -2,7 +2,29 @@
   "name": "tsaef",
   "version": "0.3.0",
   "description": "TypeScript library for the ArchiMate Exchange Format (AEF)",
+  "keywords": [
+    "aef",
+    "archimate",
+    "enterprise-architecture",
+    "exchange-format",
+    "opengroup",
+    "typescript"
+  ],
+  "homepage": "https://github.com/localgod/tsaef#readme",
+  "bugs": {
+    "url": "https://github.com/localgod/tsaef/issues"
+  },
+  "license": "ISC",
+  "author": "Johannes Skov Frandsen",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/localgod/tsaef.git"
+  },
+  "files": [
+    "dist"
+  ],
   "type": "module",
+  "sideEffects": false,
   "main": "./dist/index.mjs",
   "types": "./dist/index.d.mts",
   "exports": {
@@ -15,43 +37,19 @@
       "import": "./dist/node/index.mjs"
     }
   },
-  "files": [
-    "dist"
-  ],
-  "sideEffects": false,
-  "keywords": [
-    "archimate",
-    "aef",
-    "exchange-format",
-    "enterprise-architecture",
-    "opengroup",
-    "typescript"
-  ],
-  "engines": {
-    "node": ">=20.0.0"
-  },
-  "packageManager": "npm@11.19.0",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
     "prepack": "npm run build",
-    "test": "vitest",
-    "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage",
-    "lint": "oxlint --ignore-path .gitignore .",
-    "lintfix": "oxlint --fix --ignore-path .gitignore .",
-    "format": "oxfmt --check README.md LICENSE CHANGELOG.md src/**/*.mts tests/**/*.mts",
-    "formatfix": "oxfmt README.md LICENSE CHANGELOG.md src/**/*.mts tests/**/*.mts"
-  },
-  "author": "Johannes Skov Frandsen",
-  "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/localgod/tsaef.git"
-  },
-  "homepage": "https://github.com/localgod/tsaef#readme",
-  "bugs": {
-    "url": "https://github.com/localgod/tsaef/issues"
+    "check": "vp check",
+    "test": "vp test",
+    "test:watch": "vp test watch",
+    "test:run": "vp test run",
+    "test:coverage": "vp test run --coverage",
+    "lint": "vp lint",
+    "lintfix": "vp lint --fix",
+    "format": "vp fmt --check",
+    "formatfix": "vp fmt"
   },
   "dependencies": {
     "fast-xml-parser": "^5.10.1",
@@ -59,13 +57,20 @@
   },
   "devDependencies": {
     "@types/node": "^26.2.0",
-    "@vitest/coverage-v8": "^5.0.0",
-    "oxfmt": "^0.74.0",
-    "oxlint": "^1.50.0",
+    "@vitest/coverage-v8": "5.0.5",
     "typescript": "^7.0.2",
-    "vitest": "^5.0.0",
+    "vite-plus": "1.3.0",
+    "vitest": "5.0.5",
     "xmllint-wasm": "^4.0.2"
   },
+  "overrides": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@1.3.0",
+    "vitest": "5.0.5"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "packageManager": "npm@11.19.0",
   "allowScripts": {
     "esbuild@0.21.5": true
   }
