@@ -4,6 +4,8 @@ import type { Organization } from "./interfaces/Organization.mjs";
 import type { Property } from "./interfaces/Property.mjs";
 import type { Relationship } from "./interfaces/Relationship.mjs";
 import type { Node } from "./interfaces/Node.mjs";
+import type { RGBColor, Style } from "./interfaces/Style.mjs";
+import type { View } from "./interfaces/View.mjs";
 import type { ValidationResult } from "./interfaces/ValidationIssue.mjs";
 import {
   ArchiMateElementTypes,
@@ -81,6 +83,11 @@ const ModelSchema = z.object({
   propertyDefinitions: z.array(PropertyDefinitionSchema),
 });
 
+const FONT_STYLES = new Set(["plain", "bold", "italic", "underline"]);
+
+const isWholeNumber = (value: number, min: number, max = Infinity) =>
+  Number.isInteger(value) && value >= min && value <= max;
+
 export class Validator {
   validate(archimate: Archimate, options?: ValidationOptions): ValidationResult {
     const opts: Required<ValidationOptions> = {
@@ -101,6 +108,8 @@ export class Validator {
         result.errors.push(`${path}${issue.message}`);
       }
     }
+
+    this.checkViewValues(model.views, result);
 
     if (opts.checkReferences) {
       this.checkReferences(archimate, result);
@@ -203,6 +212,74 @@ export class Validator {
         if (!connectionEndpointIds.has(connection.target)) {
           addError(`Connection ${connection.identifier}: target '${connection.target}' not found`);
         }
+      }
+    }
+  }
+
+  // Ranges from archimate3_Diagram.xsd; values outside them serialize to XML the XSD rejects.
+  private checkViewValues(views: View[], result: ValidationResult): void {
+    type Report = (message: string) => void;
+    const reporter =
+      (owner: string): Report =>
+      (message) => {
+        result.errors.push(`${owner}: ${message}`);
+        result.success = false;
+      };
+    const checkWhole = (
+      report: Report,
+      name: string,
+      value: number | undefined,
+      min: number,
+      max?: number,
+    ) => {
+      if (value === undefined || isWholeNumber(value, min, max)) return;
+      report(`${name} must be a whole number ${max === undefined ? `≥ ${min}` : `${min}–${max}`}`);
+    };
+    const checkColor = (report: Report, name: string, color: RGBColor | undefined) => {
+      if (!color) return;
+      for (const channel of ["r", "g", "b"] as const) {
+        checkWhole(report, `${name}.${channel}`, color[channel], 0, 255);
+      }
+      checkWhole(report, `${name}.a`, color.a, 0, 100);
+    };
+    const checkStyle = (report: Report, style: Style | undefined) => {
+      if (!style) return;
+      checkWhole(report, "lineWidth", style.lineWidth, 1);
+      checkColor(report, "lineColor", style.lineColor);
+      checkColor(report, "fillColor", style.fillColor);
+      const font = style.font;
+      if (!font) return;
+      if (font.size !== undefined && !(font.size >= 1 && Number.isInteger(font.size * 2))) {
+        report("font.size must be at least 1, in steps of 0.5");
+      }
+      const unknown = (font.style ?? "").split(/\s+/).filter((s) => s && !FONT_STYLES.has(s));
+      if (unknown.length > 0) {
+        report(`font.style '${unknown.join(" ")}' is not one of plain, bold, italic, underline`);
+      }
+      checkColor(report, "font.color", font.color);
+    };
+    const checkNode = (node: Node) => {
+      const report = reporter(`Node ${node.identifier}`);
+      for (const key of ["x", "y", "w", "h"] as const) {
+        if (node[key] === undefined) report(`${key} is required`);
+      }
+      checkWhole(report, "x", node.x, 0);
+      checkWhole(report, "y", node.y, 0);
+      checkWhole(report, "w", node.w, 1);
+      checkWhole(report, "h", node.h, 1);
+      checkStyle(report, node.style);
+      for (const child of node.nodes ?? []) checkNode(child);
+    };
+
+    for (const view of views) {
+      for (const node of view.nodes ?? []) checkNode(node);
+      for (const connection of view.connections ?? []) {
+        const report = reporter(`Connection ${connection.identifier}`);
+        checkStyle(report, connection.style);
+        connection.bendpoints?.forEach((point, index) => {
+          checkWhole(report, `bendpoints[${index}].x`, point.x, 0);
+          checkWhole(report, `bendpoints[${index}].y`, point.y, 0);
+        });
       }
     }
   }

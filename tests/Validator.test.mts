@@ -63,9 +63,9 @@ describe("Validator.validate", () => {
       identifier: "view-1",
       name: "View",
       nodes: [
-        { identifier: "node-src", elementRef: src.identifier },
-        { identifier: "node-tgt", elementRef: tgt.identifier },
-        { identifier: "node-note", elementRef: note.identifier },
+        { identifier: "node-src", elementRef: src.identifier, x: 0, y: 0, w: 120, h: 55 },
+        { identifier: "node-tgt", elementRef: tgt.identifier, x: 0, y: 0, w: 120, h: 55 },
+        { identifier: "node-note", elementRef: note.identifier, x: 0, y: 0, w: 120, h: 55 },
       ],
       connections: [
         {
@@ -147,8 +147,8 @@ describe("Validator.validate", () => {
       identifier: "view-1",
       name: "View",
       nodes: [
-        { identifier: "node-src", elementRef: src.identifier },
-        { identifier: "node-tgt", elementRef: tgt.identifier },
+        { identifier: "node-src", elementRef: src.identifier, x: 0, y: 0, w: 120, h: 55 },
+        { identifier: "node-tgt", elementRef: tgt.identifier, x: 0, y: 0, w: 120, h: 55 },
       ],
       connections: [
         { identifier: "conn-no-ref", type: "Relationship", source: "node-src", target: "node-tgt" },
@@ -169,6 +169,97 @@ describe("Validator.validate", () => {
       "Connection conn-no-ref: Relationship connection has no relationshipRef",
       "Connection line-with-ref: Line connection cannot have a relationshipRef",
     ]);
+  });
+
+  it("reports view style and position values outside the XSD ranges", () => {
+    const a = Archimate.create("Test");
+    const element = a.upsertElement("E", "BusinessActor");
+    const rel = a.upsertRelationship(element.identifier, element.identifier, "Association");
+    a.getViews().push({
+      identifier: "view-1",
+      name: "View",
+      nodes: [
+        {
+          identifier: "n1",
+          elementRef: element.identifier,
+          x: -1,
+          y: 0.5,
+          w: 0,
+          h: 10,
+          style: {
+            lineWidth: 0,
+            fillColor: { r: 300, g: -1, b: 1.5, a: 150 },
+            font: { size: 10.3, style: "bold heavy", color: { r: 0, g: 0, b: 256 } },
+          },
+          nodes: [{ identifier: "n2", elementRef: element.identifier, x: 0, y: 0 }],
+        },
+      ],
+      connections: [
+        {
+          identifier: "c1",
+          relationshipRef: rel.identifier,
+          source: "n1",
+          target: "n2",
+          style: { lineColor: { r: 0, g: 0, b: 0, a: 101 }, font: { size: 0.5 } },
+          bendpoints: [
+            { x: 10, y: 10 },
+            { x: -5, y: 2.5 },
+          ],
+        },
+      ],
+    });
+
+    const result = validator.validate(a);
+
+    expect(result.success).toBe(false);
+    expect(result.errors).toEqual([
+      "Node n1: x must be a whole number ≥ 0",
+      "Node n1: y must be a whole number ≥ 0",
+      "Node n1: w must be a whole number ≥ 1",
+      "Node n1: lineWidth must be a whole number ≥ 1",
+      "Node n1: fillColor.r must be a whole number 0–255",
+      "Node n1: fillColor.g must be a whole number 0–255",
+      "Node n1: fillColor.b must be a whole number 0–255",
+      "Node n1: fillColor.a must be a whole number 0–100",
+      "Node n1: font.size must be at least 1, in steps of 0.5",
+      "Node n1: font.style 'heavy' is not one of plain, bold, italic, underline",
+      "Node n1: font.color.b must be a whole number 0–255",
+      "Node n2: w is required",
+      "Node n2: h is required",
+      "Connection c1: lineColor.a must be a whole number 0–100",
+      "Connection c1: font.size must be at least 1, in steps of 0.5",
+      "Connection c1: bendpoints[1].x must be a whole number ≥ 0",
+      "Connection c1: bendpoints[1].y must be a whole number ≥ 0",
+    ]);
+  });
+
+  it("accepts view values at the edges of the XSD ranges", () => {
+    const a = Archimate.create("Test");
+    const element = a.upsertElement("E", "BusinessActor");
+    a.getViews().push({
+      identifier: "view-1",
+      name: "View",
+      nodes: [
+        {
+          identifier: "n1",
+          elementRef: element.identifier,
+          x: 0,
+          y: 0,
+          w: 1,
+          h: 1,
+          style: {
+            lineWidth: 1,
+            fillColor: { r: 0, g: 255, b: 128, a: 0 },
+            lineColor: { r: 255, g: 255, b: 255, a: 100 },
+            font: { size: 1.5, style: "plain bold italic underline" },
+          },
+        },
+      ],
+    });
+
+    const result = validator.validate(a);
+
+    expect(result.errors).toEqual([]);
   });
 
   it("rejects relationship attributes on the wrong relationship type", () => {
