@@ -89,6 +89,55 @@ describe("Validator.validate", () => {
     expect(result.success).toBe(true);
   });
 
+  it("warns about relationships that connect to themselves or form a cycle", () => {
+    const a = Archimate.create("Test");
+    const element = a.upsertElement("A", "BusinessActor");
+    a.getRelationships().push(
+      { identifier: "r1", type: "Association", source: element.identifier, target: "r1" },
+      { identifier: "r2", type: "Association", source: "r3", target: element.identifier },
+      { identifier: "r3", type: "Association", source: "r2", target: element.identifier },
+      { identifier: "r4", type: "Association", source: "r4", target: "r4" },
+    );
+
+    const result = validator.validate(a, { checkReferences: true });
+
+    expect(result.errors).toEqual([]);
+    expect(result.success).toBe(true);
+    expect(result.warnings).toEqual([
+      "Relationship r1: connects to itself",
+      "Relationship r4: connects to itself",
+      "Relationships form a cycle: r2 → r3 → r2",
+    ]);
+  });
+
+  it("finds longer cycles through sources and targets", () => {
+    const a = Archimate.create("Test");
+    const element = a.upsertElement("A", "BusinessActor");
+    a.getRelationships().push(
+      { identifier: "r1", type: "Association", source: element.identifier, target: "r2" },
+      { identifier: "r2", type: "Association", source: "r3", target: element.identifier },
+      { identifier: "r3", type: "Association", source: element.identifier, target: "r1" },
+    );
+
+    const result = validator.validate(a, { checkReferences: true });
+
+    expect(result.warnings).toEqual(["Relationships form a cycle: r1 → r2 → r3 → r1"]);
+  });
+
+  it("does not warn about relationships that point to other relationships without a cycle", () => {
+    const a = Archimate.create("Test");
+    const src = a.upsertElement("Src", "ApplicationComponent");
+    const tgt = a.upsertElement("Tgt", "Capability");
+    const realization = a.upsertRelationship(src.identifier, tgt.identifier, "Realization");
+    const first = a.upsertRelationship(src.identifier, realization.identifier, "Association");
+    a.upsertRelationship(first.identifier, realization.identifier, "Association");
+
+    const result = validator.validate(a, { checkReferences: true });
+
+    expect(result.success).toBe(true);
+    expect(result.warnings).toEqual([]);
+  });
+
   it("rejects relationship attributes on the wrong relationship type", () => {
     const a = Archimate.create("Test");
     const src = a.upsertElement("Src", "ApplicationComponent");

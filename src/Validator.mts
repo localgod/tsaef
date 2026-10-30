@@ -2,6 +2,7 @@ import { z } from "zod";
 import type { Archimate } from "./Archimate.mjs";
 import type { Organization } from "./interfaces/Organization.mjs";
 import type { Property } from "./interfaces/Property.mjs";
+import type { Relationship } from "./interfaces/Relationship.mjs";
 import type { Node } from "./interfaces/Node.mjs";
 import type { ValidationResult } from "./interfaces/ValidationIssue.mjs";
 import {
@@ -157,6 +158,7 @@ export class Validator {
       }
       checkProperties(`relationship ${relationship.identifier}`, relationship.properties);
     }
+    this.checkRelationshipCycles(model.relationships, result);
 
     const checkOrganization = (organization: Organization) => {
       if (organization.identifierRef && !identifiableIds.has(organization.identifierRef)) {
@@ -195,6 +197,45 @@ export class Validator {
           addError(`Connection ${connection.identifier}: target '${connection.target}' not found`);
         }
       }
+    }
+  }
+
+  // Valid against the XSD, but almost certainly a mistake, so these are warnings.
+  private checkRelationshipCycles(relationships: Relationship[], result: ValidationResult): void {
+    const relationshipIds = new Set(relationships.map((relationship) => relationship.identifier));
+    const edges = new Map<string, string[]>();
+    for (const relationship of relationships) {
+      const id = relationship.identifier;
+      if (relationship.source === id || relationship.target === id) {
+        result.warnings.push(`Relationship ${id}: connects to itself`);
+      }
+      const endpoints = new Set([relationship.source, relationship.target]);
+      edges.set(
+        id,
+        [...endpoints].filter((endpoint) => endpoint !== id && relationshipIds.has(endpoint)),
+      );
+    }
+
+    // Depth-first search: an endpoint already on the current path closes a cycle. That gives one
+    // warning per back edge, so every cycle is flagged, though overlapping cycles may share one.
+    const visited = new Set<string>();
+    const path: string[] = [];
+    const visit = (id: string) => {
+      path.push(id);
+      for (const next of edges.get(id) ?? []) {
+        const start = path.indexOf(next);
+        if (start !== -1) {
+          const cycle = [...path.slice(start), next].join(" → ");
+          result.warnings.push(`Relationships form a cycle: ${cycle}`);
+        } else if (!visited.has(next)) {
+          visit(next);
+        }
+      }
+      path.pop();
+      visited.add(id);
+    };
+    for (const id of edges.keys()) {
+      if (!visited.has(id)) visit(id);
     }
   }
 
