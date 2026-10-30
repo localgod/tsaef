@@ -7,6 +7,7 @@ import type { ValidationResult } from "./interfaces/ValidationIssue.mjs";
 import {
   ArchiMateElementTypes,
   ArchiMateRelationshipTypes,
+  AccessTypes,
   DataTypes,
   ARCHIMATE_NAMESPACE,
   XSI_NAMESPACE,
@@ -33,15 +34,37 @@ const ElementSchema = z.object({
   properties: z.array(PropertySchema).optional(),
 });
 
-const RelationshipSchema = z.object({
-  identifier: z.string().min(1),
-  type: ArchiMateRelationshipTypes,
-  source: z.string().min(1),
-  target: z.string().min(1),
-  name: z.string().optional(),
-  documentation: z.string().optional(),
-  properties: z.array(PropertySchema).optional(),
-});
+const RELATIONSHIP_ATTRIBUTE_TYPES = {
+  accessType: "Access",
+  modifier: "Influence",
+  isDirected: "Association",
+} as const;
+
+const RelationshipSchema = z
+  .object({
+    identifier: z.string().min(1),
+    type: ArchiMateRelationshipTypes,
+    source: z.string().min(1),
+    target: z.string().min(1),
+    accessType: AccessTypes.optional(),
+    modifier: z.string().optional(),
+    isDirected: z.boolean().optional(),
+    name: z.string().optional(),
+    documentation: z.string().optional(),
+    properties: z.array(PropertySchema).optional(),
+  })
+  .superRefine((relationship, ctx) => {
+    for (const [attribute, type] of Object.entries(RELATIONSHIP_ATTRIBUTE_TYPES)) {
+      const key = attribute as keyof typeof RELATIONSHIP_ATTRIBUTE_TYPES;
+      if (relationship[key] !== undefined && relationship.type !== type) {
+        ctx.addIssue({
+          code: "custom",
+          path: [key],
+          message: `${attribute} is only allowed on ${type} relationships`,
+        });
+      }
+    }
+  });
 
 const PropertyDefinitionSchema = z.object({
   identifier: z.string().min(1),
@@ -123,11 +146,13 @@ export class Validator {
       checkProperties(`element ${element.identifier}`, element.properties);
     }
 
+    // ArchiMate allows a relationship to connect to another relationship.
+    const relationshipEndpointIds = new Set([...elementIds, ...relationshipIds]);
     for (const relationship of model.relationships) {
-      if (!elementIds.has(relationship.source)) {
+      if (!relationshipEndpointIds.has(relationship.source)) {
         addError(`Relationship ${relationship.identifier}: source '${relationship.source}' not found`);
       }
-      if (!elementIds.has(relationship.target)) {
+      if (!relationshipEndpointIds.has(relationship.target)) {
         addError(`Relationship ${relationship.identifier}: target '${relationship.target}' not found`);
       }
       checkProperties(`relationship ${relationship.identifier}`, relationship.properties);
@@ -147,23 +172,27 @@ export class Validator {
     for (const view of model.views) {
       checkProperties(`view ${view.identifier}`, view.properties);
       const nodes = flattenNodes(view.nodes ?? []);
-      const nodeIds = new Set(nodes.map((node) => node.identifier));
+      const connections = view.connections ?? [];
+      const connectionEndpointIds = new Set([
+        ...nodes.map((node) => node.identifier),
+        ...connections.map((connection) => connection.identifier),
+      ]);
       for (const node of nodes) {
         if (node.elementRef && !elementIds.has(node.elementRef)) {
           addError(`Node ${node.identifier}: element '${node.elementRef}' not found`);
         }
       }
-      for (const connection of view.connections ?? []) {
+      for (const connection of connections) {
         if (!relationshipIds.has(connection.relationshipRef)) {
           addError(
             `Connection ${connection.identifier}: relationship '${connection.relationshipRef}' not found`,
           );
         }
-        if (!nodeIds.has(connection.source)) {
-          addError(`Connection ${connection.identifier}: source node '${connection.source}' not found`);
+        if (!connectionEndpointIds.has(connection.source)) {
+          addError(`Connection ${connection.identifier}: source '${connection.source}' not found`);
         }
-        if (!nodeIds.has(connection.target)) {
-          addError(`Connection ${connection.identifier}: target node '${connection.target}' not found`);
+        if (!connectionEndpointIds.has(connection.target)) {
+          addError(`Connection ${connection.identifier}: target '${connection.target}' not found`);
         }
       }
     }

@@ -48,21 +48,79 @@ describe("Validator.validate", () => {
     expect(result.errors.some((e) => e.includes("does-not-exist"))).toBe(true);
   });
 
-  it("rejects relationship IDs used as relationship source/target", () => {
+  it("accepts a relationship and a connection as endpoints", () => {
     const a = Archimate.create("Test");
     const src = a.upsertElement("Src", "ApplicationComponent");
     const tgt = a.upsertElement("Tgt", "Capability");
-    const rel = a.upsertRelationship(src.identifier, tgt.identifier, "Association");
-    // Create a second relationship pointing at the first relationship's ID — invalid
-    a.getRelationships().push({
-      identifier: "id-bad",
-      type: "Association",
-      source: src.identifier,
-      target: rel.identifier,
+    const note = a.upsertElement("Note", "BusinessObject");
+    const realization = a.upsertRelationship(src.identifier, tgt.identifier, "Realization");
+    const association = a.upsertRelationship(
+      note.identifier,
+      realization.identifier,
+      "Association",
+    );
+    a.getViews().push({
+      identifier: "view-1",
+      name: "View",
+      nodes: [
+        { identifier: "node-src", elementRef: src.identifier },
+        { identifier: "node-tgt", elementRef: tgt.identifier },
+        { identifier: "node-note", elementRef: note.identifier },
+      ],
+      connections: [
+        {
+          identifier: "conn-realization",
+          relationshipRef: realization.identifier,
+          source: "node-src",
+          target: "node-tgt",
+        },
+        {
+          identifier: "conn-association",
+          relationshipRef: association.identifier,
+          source: "node-note",
+          target: "conn-realization",
+        },
+      ],
     });
+
     const result = validator.validate(a, { checkReferences: true });
+
+    expect(result.errors).toEqual([]);
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects relationship attributes on the wrong relationship type", () => {
+    const a = Archimate.create("Test");
+    const src = a.upsertElement("Src", "ApplicationComponent");
+    const tgt = a.upsertElement("Tgt", "DataObject");
+    const serving = a.upsertRelationship(src.identifier, tgt.identifier, "Serving");
+    serving.accessType = "Read";
+    serving.modifier = "+";
+    serving.isDirected = true;
+
+    const result = validator.validate(a);
+
     expect(result.success).toBe(false);
-    expect(result.errors.some((e) => e.includes(rel.identifier))).toBe(true);
+    expect(result.errors.join(" ")).toContain("accessType is only allowed on Access relationships");
+    expect(result.errors.join(" ")).toContain(
+      "modifier is only allowed on Influence relationships",
+    );
+    expect(result.errors.join(" ")).toContain(
+      "isDirected is only allowed on Association relationships",
+    );
+  });
+
+  it("rejects an invalid accessType", () => {
+    const a = Archimate.create("Test");
+    const src = a.upsertElement("Src", "ApplicationComponent");
+    const tgt = a.upsertElement("Tgt", "DataObject");
+    const access = a.upsertRelationship(src.identifier, tgt.identifier, "Access");
+    (access as { accessType?: string }).accessType = "Readwrite";
+
+    const result = validator.validate(a);
+
+    expect(result.success).toBe(false);
+    expect(result.errors.join(" ")).toContain("accessType");
   });
 
   it("detects missing property, organization, node, and connection references", () => {

@@ -23,6 +23,8 @@ const BUILDER_OPTIONS = {
   format: true,
   indentBy: "  ",
   suppressEmptyNode: true,
+  // Otherwise an attribute whose value is "true" is written without a value (e.g. isDirected).
+  suppressBooleanAttributes: false,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -111,6 +113,12 @@ export class Serializer {
       "@_source": rel.source,
       "@_target": rel.target,
     };
+    // The XSD defines each of these attributes on one relationship type only.
+    if (rel.type === "Access" && rel.accessType) raw["@_accessType"] = rel.accessType;
+    if (rel.type === "Influence" && rel.modifier !== undefined) raw["@_modifier"] = rel.modifier;
+    if (rel.type === "Association" && rel.isDirected !== undefined) {
+      raw["@_isDirected"] = String(rel.isDirected);
+    }
     if (rel.name) raw["name"] = Serializer.langString(rel.name, rel.nameLang, rel.nameTranslations);
     if (rel.documentation) {
       raw["documentation"] = Serializer.langString(
