@@ -202,7 +202,8 @@ export class Serializer {
     if (node.y !== undefined) raw["@_y"] = node.y;
     if (node.w !== undefined) raw["@_w"] = node.w;
     if (node.h !== undefined) raw["@_h"] = node.h;
-    if (node.label) raw["label"] = Serializer.langString(node.label, node.labelLang, node.labelTranslations);
+    if (node.label)
+      raw["label"] = Serializer.langString(node.label, node.labelLang, node.labelTranslations);
     if (node.documentation) {
       raw["documentation"] = Serializer.langString(
         node.documentation,
@@ -225,7 +226,8 @@ export class Serializer {
       "@_source": conn.source,
       "@_target": conn.target,
     };
-    if (conn.label) raw["label"] = Serializer.langString(conn.label, conn.labelLang, conn.labelTranslations);
+    if (conn.label)
+      raw["label"] = Serializer.langString(conn.label, conn.labelLang, conn.labelTranslations);
     if (conn.documentation) {
       raw["documentation"] = Serializer.langString(
         conn.documentation,

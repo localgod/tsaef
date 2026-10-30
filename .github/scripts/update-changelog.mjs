@@ -1,19 +1,20 @@
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from "node:fs";
 
-const tag = process.env.RELEASE_TAG ?? '';
+const tag = process.env.RELEASE_TAG ?? "";
 const dateStr = (process.env.RELEASE_DATE ?? new Date().toISOString()).slice(0, 10);
-const body = process.env.RELEASE_BODY ?? '';
-const version = tag.replace(/^v/, '');
+const body = process.env.RELEASE_BODY ?? "";
+const version = tag.replace(/^v/, "");
 
-const changelog = readFileSync('CHANGELOG.md', 'utf-8');
+const changelog = readFileSync("CHANGELOG.md", "utf-8");
 if (changelog.includes(`## [${version}] -`)) process.exit(0);
 
-const insertAt = changelog.indexOf('\n## ');
+const insertAt = changelog.indexOf("\n## ");
 
 const newEntry = `\n## [${version}] - ${dateStr}\n\n${body.trim()}\n`;
 
-const updated = insertAt === -1
-  ? changelog.trimEnd() + newEntry + '\n'
-  : changelog.slice(0, insertAt) + newEntry + changelog.slice(insertAt);
+const updated =
+  insertAt === -1
+    ? changelog.trimEnd() + newEntry + "\n"
+    : changelog.slice(0, insertAt) + newEntry + changelog.slice(insertAt);
 
-writeFileSync('CHANGELOG.md', updated, 'utf-8');
+writeFileSync("CHANGELOG.md", updated, "utf-8");

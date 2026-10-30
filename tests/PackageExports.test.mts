@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect } from "vite-plus/test";
 import { existsSync, readFileSync } from "node:fs";
 import { builtinModules } from "node:module";
 import { dirname, resolve } from "node:path";

@@ -1,12 +1,11 @@
 version: 2
 
 updates:
-
   - package-ecosystem: npm
-    directory: '/'
+    directory: "/"
     schedule:
       interval: weekly
-      time: '00:00'
+      time: "00:00"
     open-pull-requests-limit: 10
     reviewers:
       - localgod
@@ -16,12 +15,18 @@ updates:
       prefix: fix
       prefix-development: chore
       include: scope
+    # Vite+ pins these together (vite-plus, the vite alias in overrides, and vitest).
+    # Upgrade them with `npx --package=vite-plus@<version> vp migrate --no-interactive`.
+    ignore:
+      - dependency-name: "vite-plus"
+      - dependency-name: "vitest"
+      - dependency-name: "@vitest/*"
 
   - package-ecosystem: github-actions
-    directory: '/'
+    directory: "/"
     schedule:
       interval: weekly
-      time: '00:00'
+      time: "00:00"
     open-pull-requests-limit: 10
     reviewers:
       - localgod
