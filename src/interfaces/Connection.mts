@@ -1,4 +1,5 @@
 import type { LangString } from "./LangString.mjs";
+import type { Point, Style } from "./Style.mjs";
 
 export interface Connection {
   identifier: string;
@@ -13,4 +14,7 @@ export interface Connection {
   documentation?: string;
   documentationLang?: string;
   documentationTranslations?: LangString[];
+  style?: Style;
+  /** Absolute positions in the view, in order from source to target. */
+  bendpoints?: Point[];
 }

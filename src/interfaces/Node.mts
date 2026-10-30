@@ -1,4 +1,5 @@
 import type { LangString } from "./LangString.mjs";
+import type { Style } from "./Style.mjs";
 
 export interface Node {
   identifier: string;
@@ -14,5 +15,6 @@ export interface Node {
   documentation?: string;
   documentationLang?: string;
   documentationTranslations?: LangString[];
+  style?: Style;
   nodes?: Node[];
 }
