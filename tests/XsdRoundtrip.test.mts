@@ -4,6 +4,7 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Parser } from "../src/Parser.mjs";
 import { Serializer } from "../src/Serializer.mjs";
+import { Validator } from "../src/Validator.mjs";
 import { xsdErrors } from "./xsd.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -131,6 +132,37 @@ const MULTI_LANGUAGE_FIXTURE = `<?xml version="1.0" encoding="UTF-8"?>
           <documentation xml:lang="en">Connection docs</documentation>
           <documentation xml:lang="da">Connection docs DA</documentation>
         </connection>
+      </view>
+    </diagrams>
+  </views>
+</model>`;
+
+const RELATIONSHIP_ATTRIBUTES_FIXTURE = `<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.opengroup.org/xsd/archimate/3.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengroup.org/xsd/archimate/3.0/ http://www.opengroup.org/xsd/archimate/3.1/archimate3_Diagram.xsd" identifier="model-1">
+  <name xml:lang="en">Model</name>
+  <elements>
+    <element identifier="app" xsi:type="ApplicationComponent"><name>App</name></element>
+    <element identifier="data" xsi:type="DataObject"><name>Data</name></element>
+    <element identifier="goal" xsi:type="Goal"><name>Goal</name></element>
+    <element identifier="driver" xsi:type="Driver"><name>Driver</name></element>
+    <element identifier="note" xsi:type="BusinessObject"><name>Note</name></element>
+  </elements>
+  <relationships>
+    <relationship identifier="access" xsi:type="Access" source="app" target="data" accessType="ReadWrite" />
+    <relationship identifier="access-default" xsi:type="Access" source="app" target="data" />
+    <relationship identifier="influence" xsi:type="Influence" source="driver" target="goal" modifier="++" />
+    <relationship identifier="association" xsi:type="Association" source="note" target="access" isDirected="true" />
+    <relationship identifier="association-numeric" xsi:type="Association" source="note" target="goal" isDirected="0" />
+  </relationships>
+  <views>
+    <diagrams>
+      <view identifier="view-1" xsi:type="Diagram">
+        <name xml:lang="en">View</name>
+        <node identifier="node-app" xsi:type="Element" elementRef="app" x="0" y="0" w="120" h="55" />
+        <node identifier="node-data" xsi:type="Element" elementRef="data" x="300" y="0" w="120" h="55" />
+        <node identifier="node-note" xsi:type="Element" elementRef="note" x="150" y="150" w="120" h="55" />
+        <connection identifier="conn-access" xsi:type="Relationship" relationshipRef="access" source="node-app" target="node-data" />
+        <connection identifier="conn-association" xsi:type="Relationship" relationshipRef="association" source="node-note" target="conn-access" />
       </view>
     </diagrams>
   </views>
@@ -278,5 +310,37 @@ describe("XSD: multi-language text", () => {
     ).toObject().elements[0];
     expect(element.name).toBe("Element");
     expect(element).not.toHaveProperty("nameTranslations");
+  });
+});
+
+describe("XSD: relationship attributes and relationship/connection endpoints", () => {
+  it("fixture is valid against the XSD", async () => {
+    expect(await xsdErrors(RELATIONSHIP_ATTRIBUTES_FIXTURE)).toEqual([]);
+  });
+
+  it("round-trips accessType, modifier and isDirected and serializes to valid XML", async () => {
+    const { first, second, serialized } = roundtrip(RELATIONSHIP_ATTRIBUTES_FIXTURE);
+    expect(second.toObject()).toEqual(first.toObject());
+    expect(await xsdErrors(serialized)).toEqual([]);
+
+    const byId = Object.fromEntries(
+      second
+        .toObject()
+        .relationships.map((relationship) => [relationship.identifier, relationship]),
+    );
+    expect(byId["access"].accessType).toBe("ReadWrite");
+    expect(byId["access-default"]).not.toHaveProperty("accessType");
+    expect(byId["influence"].modifier).toBe("++");
+    expect(byId["association"].isDirected).toBe(true);
+    expect(byId["association-numeric"].isDirected).toBe(false);
+    expect(serialized).not.toMatch(/identifier="access-default"[^>]*accessType/);
+  });
+
+  it("validates relationship and connection endpoints with checkReferences", () => {
+    const result = new Validator().validate(Parser.parse(RELATIONSHIP_ATTRIBUTES_FIXTURE), {
+      checkReferences: true,
+    });
+    expect(result.errors).toEqual([]);
+    expect(result.success).toBe(true);
   });
 });

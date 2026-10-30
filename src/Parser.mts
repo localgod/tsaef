@@ -103,6 +103,11 @@ export class Parser {
       source: raw["@_source"] ?? "",
       target: raw["@_target"] ?? "",
     };
+    if (raw["@_accessType"] !== undefined) rel.accessType = raw["@_accessType"];
+    if (raw["@_modifier"] !== undefined) rel.modifier = raw["@_modifier"];
+    if (raw["@_isDirected"] !== undefined) {
+      rel.isDirected = ["true", "1"].includes(String(raw["@_isDirected"]).trim());
+    }
     if (raw["name"]) {
       rel.name = Parser.getText(raw["name"]);
       rel.nameLang = Parser.getLang(raw["name"]);
