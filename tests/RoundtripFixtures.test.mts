@@ -32,7 +32,7 @@ const LANGUAGE_FIXTURE = `
         <node identifier="node-1" xsi:type="Element" elementRef="element-1">
           <label xml:lang="da">Node label</label>
         </node>
-        <connection identifier="connection-1" xsi:type="Connection" relationshipRef="relationship-1" source="node-1" target="node-1">
+        <connection identifier="connection-1" xsi:type="Relationship" relationshipRef="relationship-1" source="node-1" target="node-1">
           <label xml:lang="da">Connection label</label>
         </connection>
       </view>

@@ -138,6 +138,39 @@ describe("Validator.validate", () => {
     expect(result.warnings).toEqual([]);
   });
 
+  it("checks relationshipRef against the connection type", () => {
+    const a = Archimate.create("Test");
+    const src = a.upsertElement("Src", "ApplicationComponent");
+    const tgt = a.upsertElement("Tgt", "Capability");
+    const rel = a.upsertRelationship(src.identifier, tgt.identifier, "Realization");
+    a.getViews().push({
+      identifier: "view-1",
+      name: "View",
+      nodes: [
+        { identifier: "node-src", elementRef: src.identifier },
+        { identifier: "node-tgt", elementRef: tgt.identifier },
+      ],
+      connections: [
+        { identifier: "conn-no-ref", type: "Relationship", source: "node-src", target: "node-tgt" },
+        {
+          identifier: "line-with-ref",
+          type: "Line",
+          relationshipRef: rel.identifier,
+          source: "node-src",
+          target: "node-tgt",
+        },
+        { identifier: "line-ok", type: "Line", source: "node-src", target: "node-tgt" },
+      ],
+    });
+
+    const result = validator.validate(a, { checkReferences: true });
+
+    expect(result.errors).toEqual([
+      "Connection conn-no-ref: Relationship connection has no relationshipRef",
+      "Connection line-with-ref: Line connection cannot have a relationshipRef",
+    ]);
+  });
+
   it("rejects relationship attributes on the wrong relationship type", () => {
     const a = Archimate.create("Test");
     const src = a.upsertElement("Src", "ApplicationComponent");

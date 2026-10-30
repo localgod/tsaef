@@ -218,8 +218,8 @@ export class Serializer {
   private static buildConnection(conn: Connection): RawNode {
     const raw: RawNode = {
       "@_identifier": conn.identifier,
-      "@_xsi:type": conn.type ?? "Connection",
-      "@_relationshipRef": conn.relationshipRef,
+      "@_xsi:type": conn.type ?? (conn.relationshipRef ? "Relationship" : "Line"),
+      ...(conn.relationshipRef ? { "@_relationshipRef": conn.relationshipRef } : {}),
       "@_source": conn.source,
       "@_target": conn.target,
     };
