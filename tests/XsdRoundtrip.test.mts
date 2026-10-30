@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { Archimate } from "../src/Archimate.mjs";
 import { Parser } from "../src/Parser.mjs";
 import { Serializer } from "../src/Serializer.mjs";
 import { Validator } from "../src/Validator.mjs";
@@ -163,6 +164,27 @@ const RELATIONSHIP_ATTRIBUTES_FIXTURE = `<?xml version="1.0" encoding="UTF-8"?>
         <node identifier="node-note" xsi:type="Element" elementRef="note" x="150" y="150" w="120" h="55" />
         <connection identifier="conn-access" xsi:type="Relationship" relationshipRef="access" source="node-app" target="node-data" />
         <connection identifier="conn-association" xsi:type="Relationship" relationshipRef="association" source="node-note" target="conn-access" />
+      </view>
+    </diagrams>
+  </views>
+</model>`;
+
+const LINE_CONNECTION_FIXTURE = `<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.opengroup.org/xsd/archimate/3.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengroup.org/xsd/archimate/3.0/ http://www.opengroup.org/xsd/archimate/3.1/archimate3_Diagram.xsd" identifier="model-1">
+  <name xml:lang="en">Model</name>
+  <elements>
+    <element identifier="a" xsi:type="BusinessActor"><name>A</name></element>
+    <element identifier="b" xsi:type="BusinessRole"><name>B</name></element>
+  </elements>
+  <views>
+    <diagrams>
+      <view identifier="view-1" xsi:type="Diagram">
+        <name xml:lang="en">View</name>
+        <node identifier="node-a" xsi:type="Element" elementRef="a" x="0" y="0" w="120" h="55" />
+        <node identifier="node-b" xsi:type="Element" elementRef="b" x="300" y="0" w="120" h="55" />
+        <connection identifier="line-1" xsi:type="Line" source="node-a" target="node-b">
+          <label xml:lang="en">Just a line</label>
+        </connection>
       </view>
     </diagrams>
   </views>
@@ -342,5 +364,52 @@ describe("XSD: relationship attributes and relationship/connection endpoints", (
     });
     expect(result.errors).toEqual([]);
     expect(result.success).toBe(true);
+  });
+});
+
+describe("XSD: Line connections and default connection types", () => {
+  it("fixture is valid against the XSD", async () => {
+    expect(await xsdErrors(LINE_CONNECTION_FIXTURE)).toEqual([]);
+  });
+
+  it("round-trips a Line connection without a relationshipRef", async () => {
+    const { first, second, serialized } = roundtrip(LINE_CONNECTION_FIXTURE);
+    expect(second.toObject()).toEqual(first.toObject());
+    expect(await xsdErrors(serialized)).toEqual([]);
+    expect(serialized).not.toContain("relationshipRef");
+    expect(second.toObject().views[0].connections![0]).not.toHaveProperty("relationshipRef");
+
+    const result = new Validator().validate(second, { checkReferences: true });
+    expect(result.errors).toEqual([]);
+  });
+
+  it("serializes connections without a type as Relationship or Line", async () => {
+    const a = Archimate.create("Test", "model-1");
+    const src = a.upsertElement("Src", "ApplicationComponent");
+    const tgt = a.upsertElement("Tgt", "Capability");
+    const rel = a.upsertRelationship(src.identifier, tgt.identifier, "Realization");
+    a.getViews().push({
+      identifier: "view-1",
+      name: "View",
+      nodes: [
+        { identifier: "node-src", elementRef: src.identifier, x: 0, y: 0, w: 120, h: 55 },
+        { identifier: "node-tgt", elementRef: tgt.identifier, x: 300, y: 0, w: 120, h: 55 },
+      ],
+      connections: [
+        {
+          identifier: "conn-rel",
+          relationshipRef: rel.identifier,
+          source: "node-src",
+          target: "node-tgt",
+        },
+        { identifier: "conn-line", source: "node-src", target: "node-tgt" },
+      ],
+    });
+
+    const xml = Serializer.serialize(a);
+
+    expect(xml).toMatch(/identifier="conn-rel" xsi:type="Relationship"/);
+    expect(xml).toMatch(/identifier="conn-line" xsi:type="Line" source=/);
+    expect(await xsdErrors(xml)).toEqual([]);
   });
 });

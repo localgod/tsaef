@@ -212,10 +212,10 @@ export class Parser {
     const conn: Connection = {
       identifier: raw["@_identifier"] ?? "",
       type: raw["@_xsi:type"],
-      relationshipRef: raw["@_relationshipRef"] ?? "",
       source: raw["@_source"] ?? "",
       target: raw["@_target"] ?? "",
     };
+    if (raw["@_relationshipRef"]) conn.relationshipRef = raw["@_relationshipRef"];
     if (raw["label"]) {
       conn.label = Parser.getText(raw["label"]);
       conn.labelLang = Parser.getLang(raw["label"]);

@@ -185,7 +185,14 @@ export class Validator {
         }
       }
       for (const connection of connections) {
-        if (!relationshipIds.has(connection.relationshipRef)) {
+        const type = connection.type ?? (connection.relationshipRef ? "Relationship" : "Line");
+        if (type === "Relationship" && !connection.relationshipRef) {
+          addError(`Connection ${connection.identifier}: Relationship connection has no relationshipRef`);
+        }
+        if (type === "Line" && connection.relationshipRef) {
+          addError(`Connection ${connection.identifier}: Line connection cannot have a relationshipRef`);
+        }
+        if (connection.relationshipRef && !relationshipIds.has(connection.relationshipRef)) {
           addError(
             `Connection ${connection.identifier}: relationship '${connection.relationshipRef}' not found`,
           );

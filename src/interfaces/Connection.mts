@@ -3,7 +3,8 @@ import type { LangString } from "./LangString.mjs";
 export interface Connection {
   identifier: string;
   type?: string;
-  relationshipRef: string;
+  /** Required on "Relationship" connections; "Line" connections have none. */
+  relationshipRef?: string;
   source: string;
   target: string;
   label?: string;
