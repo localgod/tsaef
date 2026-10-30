@@ -182,9 +182,13 @@ const LINE_CONNECTION_FIXTURE = `<?xml version="1.0" encoding="UTF-8"?>
         <name xml:lang="en">View</name>
         <node identifier="node-a" xsi:type="Element" elementRef="a" x="0" y="0" w="120" h="55" />
         <node identifier="node-b" xsi:type="Element" elementRef="b" x="300" y="0" w="120" h="55" />
+        <node identifier="note" xsi:type="Label" x="0" y="150" w="200" h="40">
+          <label xml:lang="en">A note</label>
+        </node>
         <connection identifier="line-1" xsi:type="Line" source="node-a" target="node-b">
           <label xml:lang="en">Just a line</label>
         </connection>
+        <connection identifier="line-note" xsi:type="Line" source="note" target="node-a" />
       </view>
     </diagrams>
   </views>
@@ -372,12 +376,26 @@ describe("XSD: Line connections and default connection types", () => {
     expect(await xsdErrors(LINE_CONNECTION_FIXTURE)).toEqual([]);
   });
 
-  it("round-trips a Line connection without a relationshipRef", async () => {
+  it("round-trips Line connections, including one from a Label node, without a relationshipRef", async () => {
     const { first, second, serialized } = roundtrip(LINE_CONNECTION_FIXTURE);
     expect(second.toObject()).toEqual(first.toObject());
     expect(await xsdErrors(serialized)).toEqual([]);
     expect(serialized).not.toContain("relationshipRef");
-    expect(second.toObject().views[0].connections![0]).not.toHaveProperty("relationshipRef");
+    const view = second.toObject().views[0];
+    for (const connection of view.connections!) {
+      expect(connection).not.toHaveProperty("relationshipRef");
+    }
+    expect(view.nodes!.find((node) => node.identifier === "note")).toEqual({
+      identifier: "note",
+      type: "Label",
+      elementRef: undefined,
+      x: 0,
+      y: 150,
+      w: 200,
+      h: 40,
+      label: "A note",
+      labelLang: "en",
+    });
 
     const result = new Validator().validate(second, { checkReferences: true });
     expect(result.errors).toEqual([]);
