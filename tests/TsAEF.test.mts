@@ -3,7 +3,7 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { readFileSync, unlinkSync, existsSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { TsAEF } from "../src/TsAEF.mjs";
+import { TsAEF } from "../src/node/index.mjs";
 import { Archimate } from "../src/Archimate.mjs";
 import { ParseError } from "../src/errors.mjs";
 

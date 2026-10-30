@@ -13,10 +13,24 @@ The [ArchiMate Exchange Format](https://www.opengroup.org/xsd/archimate/) is the
 npm install tsaef
 ```
 
+## Entry points
+
+| Import       | Contents                                                         | Runs in                     |
+| ------------ | ---------------------------------------------------------------- | --------------------------- |
+| `tsaef`      | `Archimate`, `Parser`, `Serializer`, `Validator`, types, helpers | Node, browsers, Web Workers |
+| `tsaef/node` | `TsAEF` (load and save files)                                    | Node only (uses `node:fs`)  |
+
+The root export has no Node imports, so it can be bundled for the browser without polyfills. To
+work with files in the browser, read the XML yourself and use `Parser.parse(xml)` and
+`Serializer.serialize(model)`.
+
+> **Upgrading from 0.3:** `TsAEF` moved from `tsaef` to `tsaef/node`. Change
+> `import { TsAEF } from "tsaef"` to `import { TsAEF } from "tsaef/node"`.
+
 ## Quick start
 
 ```typescript
-import { TsAEF, Archimate, Serializer } from "tsaef";
+import { TsAEF } from "tsaef/node";
 
 // Load an existing AEF model from disk
 const tsaef = new TsAEF();
@@ -76,7 +90,7 @@ if (!result.success) {
 
 ### `TsAEF`
 
-Facade for file I/O.
+Facade for file I/O. Node only; import it from `tsaef/node`.
 
 | Method              | Description                                              |
 | ------------------- | -------------------------------------------------------- |
