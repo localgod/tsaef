@@ -3,16 +3,23 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [Unreleased]
-
-### Fixed
-
-- fix: `Validator.validate()` no longer overflows the stack (or takes quadratic time) on long chains of relationships
-- fix: `StringUtils.stripHtml` runs in linear time on input with many unclosed `<`
+## [0.4.1] - 2026-11-02
 
 ### Changed
 
-- chore: relicense under MIT; `LICENSE`, `package.json` and README now agree (#85)
+- chore: relicense under MIT; `LICENSE`, `package.json` and README now agree (#86)
+
+### Fixed
+
+- fix: `Validator.validate()` no longer overflows the stack, or takes quadratic time, on long chains of relationships (#87)
+- fix: `StringUtils.stripHtml` runs in linear time on input with many unclosed `<` (#87)
+- fix: the changelog workflow passes the release tag through an environment variable instead of the shell script (#87)
+- docs: README states the Node.js 22 requirement
+
+### Dependencies
+
+- fix(deps): bump voidzero-dev/setup-vp from 1.21.2 to 1.22.0 (#82)
+- chore(deps-dev): bump xmllint-wasm from 4.0.2 to 5.3.0 (#83)
 
 ## [0.4.0] - 2026-10-30
 

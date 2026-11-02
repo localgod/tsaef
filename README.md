@@ -203,7 +203,7 @@ import type { ArchiMateElementType, ArchiMateRelationshipType } from "tsaef";
 
 ## Requirements
 
-Node.js 20 or later.
+Node.js 22 or later.
 
 ## License
 
