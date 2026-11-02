@@ -52,6 +52,18 @@ describe("StringUtils.stripHtml", () => {
   it("returns plain text unchanged", () => {
     expect(StringUtils.stripHtml("plain text")).toBe("plain text");
   });
+
+  it("keeps text after the last tag, including an unclosed <", () => {
+    expect(StringUtils.stripHtml("<b>a</b> < b")).toBe("a < b");
+    expect(StringUtils.stripHtml("a <b <c> d")).toBe("a  d");
+  });
+
+  it("handles many unclosed < in linear time", () => {
+    const input = "<".repeat(200_000) + "<b>x</b>" + "<".repeat(200_000);
+    const start = performance.now();
+    expect(StringUtils.stripHtml(input)).toBe("x" + "<".repeat(200_000));
+    expect(performance.now() - start).toBeLessThan(1000);
+  });
 });
 
 describe("DateUtils.toMMDDYYYY", () => {

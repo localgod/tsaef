@@ -30,6 +30,8 @@ jobs:
       - run: npm exec -- vp fmt CHANGELOG.md
 
       - name: Commit changelog
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -37,5 +39,5 @@ jobs:
           if git diff --cached --quiet; then
             exit 0
           fi
-          git commit -m "docs: update changelog for ${{ github.event.release.tag_name }}"
+          git commit -m "docs: update changelog for ${RELEASE_TAG}"
           git push

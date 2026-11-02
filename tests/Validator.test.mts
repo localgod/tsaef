@@ -124,6 +124,26 @@ describe("Validator.validate", () => {
     expect(result.warnings).toEqual(["Relationships form a cycle: r1 → r2 → r3 → r1"]);
   });
 
+  it("checks a long chain of relationships without overflowing the stack", () => {
+    const a = Archimate.create("Test");
+    const element = a.upsertElement("A", "BusinessActor");
+    const n = 50_000;
+    for (let i = 0; i < n; i++) {
+      a.getRelationships().push({
+        identifier: `r${i}`,
+        type: "Association",
+        source: element.identifier,
+        target: i + 1 < n ? `r${i + 1}` : `r0`,
+      });
+    }
+
+    const result = validator.validate(a, { checkReferences: true });
+
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toHaveLength(1);
+    expect(result.warnings[0]).toMatch(/^Relationships form a cycle: r0 → r1 → .* → r49999 → r0$/);
+  });
+
   it("does not warn about relationships that point to other relationships without a cycle", () => {
     const a = Archimate.create("Test");
     const src = a.upsertElement("Src", "ApplicationComponent");

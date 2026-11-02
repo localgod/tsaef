@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- fix: `Validator.validate()` no longer overflows the stack (or takes quadratic time) on long chains of relationships
+- fix: `StringUtils.stripHtml` runs in linear time on input with many unclosed `<`
+
 ### Changed
 
 - chore: relicense under MIT; `LICENSE`, `package.json` and README now agree (#85)
