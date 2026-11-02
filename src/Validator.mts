@@ -312,24 +312,39 @@ export class Validator {
 
     // Depth-first search: an endpoint already on the current path closes a cycle. That gives one
     // warning per back edge, so every cycle is flagged, though overlapping cycles may share one.
+    // Iterative, with path positions in a Map, so long chains cannot overflow the call stack or
+    // take quadratic time.
     const visited = new Set<string>();
     const path: string[] = [];
-    const visit = (id: string) => {
+    const pathIndex = new Map<string, number>();
+    const stack: { id: string; next: number }[] = [];
+    const enter = (id: string) => {
+      pathIndex.set(id, path.length);
       path.push(id);
-      for (const next of edges.get(id) ?? []) {
-        const start = path.indexOf(next);
-        if (start !== -1) {
-          const cycle = [...path.slice(start), next].join(" → ");
-          result.warnings.push(`Relationships form a cycle: ${cycle}`);
-        } else if (!visited.has(next)) {
-          visit(next);
+      stack.push({ id, next: 0 });
+    };
+    for (const root of edges.keys()) {
+      if (visited.has(root)) continue;
+      enter(root);
+      while (stack.length > 0) {
+        const frame = stack[stack.length - 1];
+        const targets = edges.get(frame.id) ?? [];
+        if (frame.next < targets.length) {
+          const next = targets[frame.next++];
+          const start = pathIndex.get(next);
+          if (start !== undefined) {
+            const cycle = [...path.slice(start), next].join(" → ");
+            result.warnings.push(`Relationships form a cycle: ${cycle}`);
+          } else if (!visited.has(next)) {
+            enter(next);
+          }
+        } else {
+          stack.pop();
+          path.pop();
+          pathIndex.delete(frame.id);
+          visited.add(frame.id);
         }
       }
-      path.pop();
-      visited.add(id);
-    };
-    for (const id of edges.keys()) {
-      if (!visited.has(id)) visit(id);
     }
   }
 
