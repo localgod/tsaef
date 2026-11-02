@@ -207,4 +207,4 @@ Node.js 20 or later.
 
 ## License
 
-ISC
+MIT — see [LICENSE](LICENSE).

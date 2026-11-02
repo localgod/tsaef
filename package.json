@@ -14,7 +14,7 @@
   "bugs": {
     "url": "https://github.com/localgod/tsaef/issues"
   },
-  "license": "ISC",
+  "license": "MIT",
   "author": "Johannes Skov Frandsen",
   "repository": {
     "type": "git",
